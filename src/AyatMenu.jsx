@@ -27,7 +27,7 @@ const SPOTLIGHT_IMAGES = {
   "Lamb Ouzi Royale": IMG_OUZI,
 };
 
-const CSS = `
+export const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&display=swap');
 :root{--bg:#F5F0E6;--card:#FFF;--card-h:#FDFCF9;--gd:#2B3D2B;--gm:#3D5A3D;--gl:#5A7A52;--gp:rgba(43,61,43,.06);
 --gold:#B8860B;--terra:#B85C38;--tp:#2B3D2B;--ts:#6B7D6B;--tm:#9BA89B;--bs:rgba(43,61,43,.08);
@@ -58,11 +58,11 @@ export const TatreezDivider=({color="var(--gm)",opacity:op=.15})=>(
     <circle cx="100" cy="10" r="2" fill={color} fillOpacity={op*.4}/>
   </svg>);
 
-const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"V",color:"var(--gm)"},VG:{label:"VG",color:"var(--terra)"}};
+export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"V",color:"var(--gm)"},VG:{label:"VG",color:"var(--terra)"}};
 
 // Dietary filters. Note: vegan (VG) items are also vegetarian, so "Vegetarian" matches V OR VG.
-const dietFilters=[{key:"VG",label:"Vegan"},{key:"V",label:"Vegetarian"},{key:"GF",label:"Gluten-Free"}];
-const matchesDiet=(item,active)=>active.every(f=>
+export const dietFilters=[{key:"VG",label:"Vegan"},{key:"V",label:"Vegetarian"},{key:"GF",label:"Gluten-Free"}];
+export const matchesDiet=(item,active)=>active.every(f=>
   f==="V"?(item.tags?.includes("V")||item.tags?.includes("VG")):item.tags?.includes(f));
 
 // Allergen data keyed by dish name (same pattern as SPOTLIGHT_IMAGES). Shown on the dish as "<allergen> included".
@@ -72,18 +72,19 @@ const ALLERGENS={
   "Lamb Ouzi Royale":["nuts"],
 };
 const NUT_WORDS=["nuts","walnuts","pine nuts","almonds","pistachios","cashews","peanuts","hazelnuts"];
-const allergyFilters=[{key:"nuts",label:"Nuts",match:a=>NUT_WORDS.includes(a)}];
-const itemAllergens=item=>ALLERGENS[item.name]||[];
+export const allergyFilters=[{key:"nuts",label:"Nuts",match:a=>NUT_WORDS.includes(a)}];
+// Items may carry their own allergens array; otherwise fall back to the name-keyed map.
+export const itemAllergens=item=>item.allergens||ALLERGENS[item.name]||[];
 // An item passes when it contains none of the active (excluded) allergens.
-const matchesAllergy=(item,activeKeys)=>activeKeys.every(k=>{
+export const matchesAllergy=(item,activeKeys)=>activeKeys.every(k=>{
   const af=allergyFilters.find(x=>x.key===k);return af?!itemAllergens(item).some(af.match):true;});
 
-function useInView(o={}){const[v,s]=useState(false);const r=useRef(null);
+export function useInView(o={}){const[v,s]=useState(false);const r=useRef(null);
   useEffect(()=>{const el=r.current;if(!el)return;const ob=new IntersectionObserver(([e])=>{
     if(e.isIntersecting){s(true);ob.unobserve(el);}},{threshold:.1,...o});ob.observe(el);
     return()=>ob.disconnect();},[]);return[r,v];}
 
-function AnimatedItem({children,delay=0}){const[r,v]=useInView();
+export function AnimatedItem({children,delay=0}){const[r,v]=useInView();
   return <div ref={r} style={{opacity:v?1:0,transform:v?"translateY(0)":"translateY(24px)",
     transition:`opacity .65s cubic-bezier(.16,1,.3,1) ${delay}s, transform .65s cubic-bezier(.16,1,.3,1) ${delay}s`}}>{children}</div>;}
 
@@ -136,7 +137,7 @@ function SpotlightDish({item,index}){
             transition:"transform .4s cubic-bezier(.16,1,.3,1)"}}>{item.price}</span>
         </div></div></div></div>;}
 
-function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.length)return null;
+export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.length)return null;
   const txt=a.map(x=>x.charAt(0).toUpperCase()+x.slice(1)+" included").join(" · ");
   return <span style={{display:"inline-flex",alignItems:"center",gap:"5px",fontFamily:"'Work Sans',sans-serif",
     fontSize:"10px",fontWeight:500,letterSpacing:".05em",padding:"3px 10px",borderRadius:"20px",
@@ -162,7 +163,7 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
 
-function SectionHeader({category}){const[r,v]=useInView();
+export function SectionHeader({category}){const[r,v]=useInView();
   return <div ref={r} style={{marginBottom:"28px"}}><div style={{display:"flex",alignItems:"center",gap:"20px",
     opacity:v?1:0,transform:v?"translateX(0)":"translateX(-20px)",transition:"all .8s cubic-bezier(.16,1,.3,1)"}}>
     <h2 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(28px,5vw,38px)",fontWeight:400,
