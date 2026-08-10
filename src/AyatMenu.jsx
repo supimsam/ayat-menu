@@ -126,8 +126,10 @@ function SpotlightDish({item,index}){
                 borderRadius:"20px",border:"1px solid rgba(245,240,230,.2)",color:"rgba(245,240,230,.6)",textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null)}
               <AllergenNote item={item} dark/></div>}
           </div>
-          <span style={{fontFamily:"'Bodoni Moda',serif",fontSize:"28px",fontWeight:400,fontStyle:"italic",color:"var(--gold)",flexShrink:0,
-            textShadow:"0 2px 8px rgba(0,0,0,.3)",transform:hovered?"translateY(-3px) scale(1.05)":"translateY(0) scale(1)",
+          <span style={{fontFamily:"'Bodoni Moda',serif",fontSize:"26px",fontWeight:400,fontStyle:"italic",color:"#EEC96A",flexShrink:0,
+            lineHeight:1,padding:"5px 15px",borderRadius:"100px",background:"rgba(12,10,9,.55)",
+            backdropFilter:"blur(6px)",WebkitBackdropFilter:"blur(6px)",border:"1px solid rgba(238,201,106,.3)",
+            boxShadow:"0 2px 12px rgba(0,0,0,.4)",transform:hovered?"translateY(-3px) scale(1.05)":"translateY(0) scale(1)",
             transition:"transform .4s cubic-bezier(.16,1,.3,1)"}}>{item.price}</span>
         </div></div></div></div>;}
 
