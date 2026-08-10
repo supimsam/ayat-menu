@@ -242,10 +242,10 @@ export default function AyatMenu(){
     <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
 
-    <header style={{minHeight:"70vh",display:"flex",flexDirection:"column",justifyContent:"center",
-      alignItems:"center",textAlign:"center",padding:"40px 24px",position:"relative",zIndex:1}}>
+    <header style={{minHeight:"46vh",display:"flex",flexDirection:"column",justifyContent:"center",
+      alignItems:"center",textAlign:"center",padding:"32px 24px 28px",position:"relative",zIndex:1}}>
       <div style={{opacity:heroVis?1:0,transform:heroVis?"translateY(0) scale(1)":"translateY(20px) scale(.9)",
-        transition:"all 1.2s cubic-bezier(.16,1,.3,1) .3s",marginBottom:"16px"}}><AyatLogo width={260}/></div>
+        transition:"all 1.2s cubic-bezier(.16,1,.3,1) .3s",marginBottom:"14px"}}><AyatLogo width={150}/></div>
       <div style={{opacity:heroVis?1:0,transition:"opacity 1s ease .8s",marginBottom:"16px"}}>
         <TatreezDivider color="var(--gd)" opacity={.25}/></div>
       <div style={{opacity:heroVis?1:0,transform:heroVis?"translateY(0)":"translateY(20px)",
