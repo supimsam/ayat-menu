@@ -333,6 +333,6 @@ export default function AyatMenu(){
             color:"var(--tm)",lineHeight:1.8,maxWidth:"340px",margin:"0 auto 12px"}}>
             At our table, every guest becomes family, and every dish comes with a story to be shared.</p>
           <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".15em",
-            textTransform:"uppercase",color:"var(--tm)",opacity:.5,marginTop:"16px"}}>ayatnyc.com</p>
+            textTransform:"uppercase",color:"var(--tm)",opacity:.5,marginTop:"16px"}}>ayatbushwick.menu</p>
         </footer></AnimatedItem></>}
     </main></div>;}
