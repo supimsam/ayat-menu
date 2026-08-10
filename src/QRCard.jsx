@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import html2canvas from "html2canvas";
-import { AyatLogo, TatreezDivider } from "./AyatMenu.jsx";
+import { AyatLogo } from "./AyatMenu.jsx";
 
 const MENU_URL = "https://ayatbushwick.menu";
 
@@ -40,9 +40,6 @@ function Panel({ mod }) {
   return (
     <div className={"panel" + (mod ? " panel--top" : "")}>
       <AyatLogo width={104} />
-      <div style={{ margin: "8px 0 0" }}>
-        <TatreezDivider color="#3D5A3D" opacity={0.25} />
-      </div>
       <p className="qr-soul">Palestinian Soul Food</p>
       <div className="qr-box">
         <QRCodeSVG value={MENU_URL} size={120} level="M" fgColor="#2B3D2B" bgColor="#ffffff" />
