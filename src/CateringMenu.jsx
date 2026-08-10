@@ -5,83 +5,96 @@ import {
   itemAllergens, AllergenNote, AnimatedItem, SectionHeader,
 } from "./AyatMenu.jsx";
 
+const ORDER_URL = "https://www.ayatnyc.com/menu/catering-menu/";
+
 // Catering menu data (from ayatnyc.com/menu/catering-menu). Trays feed groups; prices per size.
+// feeds:[min,max] = approx people each size serves.
 const CATERING = [
-  { slug: "cold", label: "Cold Appetizers", note: '9" · Medium (feeds 8–12) · Large (feeds 12–16)', items: [
-    { name: "Hummus", desc: "Silky chickpea & tahini purée finished with olive oil.", tags: ["VG", "GF"], prices: [{ label: '9"', price: "$25" }, { label: "Med", price: "$60" }, { label: "Lg", price: "$110" }] },
-    { name: "Baba Ghanoush", desc: "Oven-roasted eggplant mashed with tahini, yogurt, olive oil, lemon & garlic.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25" }, { label: "Med", price: "$60" }, { label: "Lg", price: "$110" }] },
-    { name: "Labneh", desc: "Strained & whipped yogurt paste topped with olive oil.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25" }, { label: "Med", price: "$75" }, { label: "Lg", price: "$140" }] },
-    { name: "Muhammarah", desc: "Roasted sweet red peppers blended with walnuts & pomegranate molasses.", tags: ["VG"], allergens: ["walnuts"], prices: [{ label: '9"', price: "$30" }, { label: "Med", price: "$60" }, { label: "Lg", price: "$110" }] },
-    { name: "Khyar Ma Laban", desc: "Finely chopped Mediterranean cucumbers mixed with yogurt & fresh mint.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25" }, { label: "Med", price: "$60" }, { label: "Lg", price: "$110" }] },
-    { name: "Fattoush", desc: "Finely chopped romaine, tomato, cucumber & mint, topped with baked pita chips.", tags: ["VG"], prices: [{ label: "Med", price: "$40" }, { label: "Lg", price: "$80" }] },
-    { name: "Salata Filistini", desc: "Finely chopped cucumbers, tomatoes & parsley dressed with lemon & olive oil.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$60" }, { label: "Lg", price: "$110" }] },
-    { name: "Salata Tahina", desc: "A refreshing blend of scallions & vegetables in a creamy tahini dressing.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$70" }, { label: "Lg", price: "$130" }] },
-    { name: "Tabbouleh", desc: "Finely chopped parsley with fine bulgur, tomatoes, onions, olive oil & lemon.", tags: ["VG"], prices: [{ label: "Med", price: "$65" }, { label: "Lg", price: "$125" }] },
+  { slug: "cold", label: "Cold Appetizers", note: '9" (feeds 3–5) · Medium (feeds 8–12) · Large (feeds 12–16)', items: [
+    { name: "Hummus", desc: "Silky chickpea & tahini purée finished with olive oil.", tags: ["VG", "GF"], prices: [{ label: '9"', price: "$25", feeds: [3, 5] }, { label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
+    { name: "Baba Ghanoush", desc: "Oven-roasted eggplant mashed with tahini, yogurt, olive oil, lemon & garlic.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25", feeds: [3, 5] }, { label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
+    { name: "Labneh", desc: "Strained & whipped yogurt paste topped with olive oil.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25", feeds: [3, 5] }, { label: "Med", price: "$75", feeds: [8, 12] }, { label: "Lg", price: "$140", feeds: [12, 16] }] },
+    { name: "Muhammarah", desc: "Roasted sweet red peppers blended with walnuts & pomegranate molasses.", tags: ["VG"], allergens: ["walnuts"], prices: [{ label: '9"', price: "$30", feeds: [3, 5] }, { label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
+    { name: "Khyar Ma Laban", desc: "Finely chopped Mediterranean cucumbers mixed with yogurt & fresh mint.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25", feeds: [3, 5] }, { label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
+    { name: "Fattoush", desc: "Finely chopped romaine, tomato, cucumber & mint, topped with baked pita chips.", tags: ["VG"], prices: [{ label: "Med", price: "$40", feeds: [8, 12] }, { label: "Lg", price: "$80", feeds: [12, 16] }] },
+    { name: "Salata Filistini", desc: "Finely chopped cucumbers, tomatoes & parsley dressed with lemon & olive oil.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
+    { name: "Salata Tahina", desc: "A refreshing blend of scallions & vegetables in a creamy tahini dressing.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$70", feeds: [8, 12] }, { label: "Lg", price: "$130", feeds: [12, 16] }] },
+    { name: "Tabbouleh", desc: "Finely chopped parsley with fine bulgur, tomatoes, onions, olive oil & lemon.", tags: ["VG"], prices: [{ label: "Med", price: "$65", feeds: [8, 12] }, { label: "Lg", price: "$125", feeds: [12, 16] }] },
   ] },
   { slug: "hot", label: "Hot Appetizers", note: "Medium (feeds 8–12) · Large (feeds 12–16)", items: [
-    { name: "Falafel", desc: "Served with pickles & tahini.", tags: ["VG"], prices: [{ label: "Med", price: "$60" }, { label: "Lg", price: "$120" }] },
-    { name: "Kousa Mahshi", desc: "Persian squash stuffed with rice, tomatoes, onions & an array of spices.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$65" }, { label: "Lg", price: "$130" }] },
-    { name: "Wara Dawali", desc: "Grape leaves stuffed with rice, parsley, tomatoes, onions & spices.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$130" }, { label: "Lg", price: "$260" }] },
-    { name: "Fried Halloumi Cheese", desc: "Golden pan-fried halloumi.", tags: ["V", "GF"], prices: [{ label: "Med", price: "$65" }, { label: "Lg", price: "$130" }] },
-    { name: "Kibbeh", desc: "Finely ground bulgur & meat filled with ground beef, onion & Mediterranean spices.", prices: [{ label: "Med", price: "$110" }, { label: "Lg", price: "$220" }] },
-    { name: "Mujadara", desc: "Lentils & rice with caramelized onions.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$40" }, { label: "Lg", price: "$80" }] },
-    { name: "Beitenjan", desc: "Fried eggplant drizzled with tahini & pomegranate molasses.", tags: ["VG"], prices: [{ label: "Med", price: "$80" }, { label: "Lg", price: "$150" }] },
-    { name: "Zahir", desc: "Fried cauliflower on a tahini bed, topped with olive oil & pomegranate molasses.", tags: ["VG"], prices: [{ label: "Med", price: "$80" }, { label: "Lg", price: "$150" }] },
-    { name: "Ikras Bi Lahma", desc: "Beef-filled pie. Sold by piece.", prices: [{ label: "each", price: "$6" }] },
-    { name: "Ikras Bi Sabanikh", desc: "Spinach-filled pie. Sold by piece.", tags: ["V"], prices: [{ label: "each", price: "$5" }] },
+    { name: "Falafel", desc: "Served with pickles & tahini.", tags: ["VG"], prices: [{ label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$120", feeds: [12, 16] }] },
+    { name: "Kousa Mahshi", desc: "Persian squash stuffed with rice, tomatoes, onions & an array of spices.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$65", feeds: [8, 12] }, { label: "Lg", price: "$130", feeds: [12, 16] }] },
+    { name: "Wara Dawali", desc: "Grape leaves stuffed with rice, parsley, tomatoes, onions & spices.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$130", feeds: [8, 12] }, { label: "Lg", price: "$260", feeds: [12, 16] }] },
+    { name: "Fried Halloumi Cheese", desc: "Golden pan-fried halloumi.", tags: ["V", "GF"], prices: [{ label: "Med", price: "$65", feeds: [8, 12] }, { label: "Lg", price: "$130", feeds: [12, 16] }] },
+    { name: "Kibbeh", desc: "Finely ground bulgur & meat filled with ground beef, onion & Mediterranean spices.", prices: [{ label: "Med", price: "$110", feeds: [8, 12] }, { label: "Lg", price: "$220", feeds: [12, 16] }] },
+    { name: "Mujadara", desc: "Lentils & rice with caramelized onions.", tags: ["VG", "GF"], prices: [{ label: "Med", price: "$40", feeds: [8, 12] }, { label: "Lg", price: "$80", feeds: [12, 16] }] },
+    { name: "Beitenjan", desc: "Fried eggplant drizzled with tahini & pomegranate molasses.", tags: ["VG"], prices: [{ label: "Med", price: "$80", feeds: [8, 12] }, { label: "Lg", price: "$150", feeds: [12, 16] }] },
+    { name: "Zahir", desc: "Fried cauliflower on a tahini bed, topped with olive oil & pomegranate molasses.", tags: ["VG"], prices: [{ label: "Med", price: "$80", feeds: [8, 12] }, { label: "Lg", price: "$150", feeds: [12, 16] }] },
+    { name: "Ikras Bi Lahma", desc: "Beef-filled pie. Sold by piece.", prices: [{ label: "each", price: "$6", feeds: [1, 1] }] },
+    { name: "Ikras Bi Sabanikh", desc: "Spinach-filled pie. Sold by piece.", tags: ["V"], prices: [{ label: "each", price: "$5", feeds: [1, 1] }] },
   ] },
   { slug: "quick", label: "Quick Bites", items: [
-    { name: "Food Mix", desc: "3 araby chicken, 3 araby beef, 2 kefta, 2 beef kebab & 2 chicken kebab, with french fries & pita.", prices: [{ label: "feeds 10–12", price: "$150" }] },
+    { name: "Food Mix", desc: "3 araby chicken, 3 araby beef, 2 kefta, 2 beef kebab & 2 chicken kebab, with french fries & pita.", prices: [{ label: "feeds 10–12", price: "$150", feeds: [10, 12] }] },
   ] },
-  { slug: "pizza", label: "Wood-Fired Pizza", note: "Sold by order", items: [
-    { name: "Zaatar Margarita", desc: "San Marzano tomatoes, fresh mozzarella & basil on a za'atar-infused crust.", tags: ["V"], prices: [{ label: "per pizza", price: "$19" }] },
-    { name: "Lahma Bi Ajeen", desc: "Ground beef, tomatoes & onions on a classic crust.", prices: [{ label: "per pizza", price: "$18" }] },
-    { name: "Falafel Frenzy", desc: "Crisp falafel, onions, tomatoes & a drizzle of tahini.", tags: ["VG"], prices: [{ label: "per pizza", price: "$17" }] },
-    { name: "Zaatar Pizza", desc: "Wood-fired crust with za'atar & olive oil.", tags: ["VG"], prices: [{ label: "per pizza", price: "$12" }] },
-    { name: "Cheese Pizza", desc: "Wood-fired crust with fresh mozzarella.", tags: ["V"], prices: [{ label: "per pizza", price: "$14" }] },
+  { slug: "pizza", label: "Wood-Fired Pizza", note: "Sold by order · each pizza feeds 2–3", items: [
+    { name: "Zaatar Margarita", desc: "San Marzano tomatoes, fresh mozzarella & basil on a za'atar-infused crust.", tags: ["V"], prices: [{ label: "per pizza", price: "$19", feeds: [2, 3] }] },
+    { name: "Lahma Bi Ajeen", desc: "Ground beef, tomatoes & onions on a classic crust.", prices: [{ label: "per pizza", price: "$18", feeds: [2, 3] }] },
+    { name: "Falafel Frenzy", desc: "Crisp falafel, onions, tomatoes & a drizzle of tahini.", tags: ["VG"], prices: [{ label: "per pizza", price: "$17", feeds: [2, 3] }] },
+    { name: "Zaatar Pizza", desc: "Wood-fired crust with za'atar & olive oil.", tags: ["VG"], prices: [{ label: "per pizza", price: "$12", feeds: [2, 3] }] },
+    { name: "Cheese Pizza", desc: "Wood-fired crust with fresh mozzarella.", tags: ["V"], prices: [{ label: "per pizza", price: "$14", feeds: [2, 3] }] },
   ] },
   { slug: "shawarma", label: "Shawarma", note: "Medium (feeds 6–8) · Large (feeds 10–12)", items: [
-    { name: "Chicken Shawarma Araby Style", desc: "Served with fries & pickles.", prices: [{ label: "Med", price: "$60" }, { label: "Lg", price: "$120" }] },
-    { name: "Beef Shawarma Araby Style", desc: "Served with fries & pickles.", prices: [{ label: "Med", price: "$75" }, { label: "Lg", price: "$145" }] },
+    { name: "Chicken Shawarma Araby Style", desc: "Served with fries & pickles.", prices: [{ label: "Med", price: "$60", feeds: [6, 8] }, { label: "Lg", price: "$120", feeds: [10, 12] }] },
+    { name: "Beef Shawarma Araby Style", desc: "Served with fries & pickles.", prices: [{ label: "Med", price: "$75", feeds: [6, 8] }, { label: "Lg", price: "$145", feeds: [10, 12] }] },
   ] },
   { slug: "mashawy", label: "Mashawy", note: "Medium (feeds 8–10) · Large (feeds 12–15)", items: [
-    { name: "Lamb Kebab", desc: "Tender chunks of marinated lamb, grilled to perfection.", prices: [{ label: "Med", price: "$150" }, { label: "Lg", price: "$290" }] },
-    { name: "BBQ Chicken", desc: "Half of a BBQ chicken with a side of rice or hand-cut fries.", prices: [{ label: "Med", price: "$40" }, { label: "Lg", price: "$80" }] },
-    { name: "Chicken Kebab", desc: "Skewered & grilled chicken marinated in a blend of spices & herbs.", prices: [{ label: "Med", price: "$120" }, { label: "Lg", price: "$230" }] },
-    { name: "Kefta", desc: "Ground meat blended with parsley & onions.", prices: [{ label: "Med", price: "$100" }, { label: "Lg", price: "$195" }] },
-    { name: "Beef Kebab", desc: "Tender cuts of filet mignon, marinated & grilled to perfection.", prices: [{ label: "Med", price: "$160" }, { label: "Lg", price: "$300" }] },
-    { name: "Lamb Chops", desc: "4 tender grilled lamb chops.", prices: [{ label: "Med", price: "$250" }, { label: "Lg", price: "$490" }] },
-    { name: "Mixed Grill", desc: "Chicken kebab, beef kebab, kefta & lamb chop.", prices: [{ label: "Med", price: "$140" }, { label: "Lg", price: "$275" }] },
+    { name: "Lamb Kebab", desc: "Tender chunks of marinated lamb, grilled to perfection.", prices: [{ label: "Med", price: "$150", feeds: [8, 10] }, { label: "Lg", price: "$290", feeds: [12, 15] }] },
+    { name: "BBQ Chicken", desc: "Half of a BBQ chicken with a side of rice or hand-cut fries.", prices: [{ label: "Med", price: "$40", feeds: [8, 10] }, { label: "Lg", price: "$80", feeds: [12, 15] }] },
+    { name: "Chicken Kebab", desc: "Skewered & grilled chicken marinated in a blend of spices & herbs.", prices: [{ label: "Med", price: "$120", feeds: [8, 10] }, { label: "Lg", price: "$230", feeds: [12, 15] }] },
+    { name: "Kefta", desc: "Ground meat blended with parsley & onions.", prices: [{ label: "Med", price: "$100", feeds: [8, 10] }, { label: "Lg", price: "$195", feeds: [12, 15] }] },
+    { name: "Beef Kebab", desc: "Tender cuts of filet mignon, marinated & grilled to perfection.", prices: [{ label: "Med", price: "$160", feeds: [8, 10] }, { label: "Lg", price: "$300", feeds: [12, 15] }] },
+    { name: "Lamb Chops", desc: "4 tender grilled lamb chops.", prices: [{ label: "Med", price: "$250", feeds: [8, 10] }, { label: "Lg", price: "$490", feeds: [12, 15] }] },
+    { name: "Mixed Grill", desc: "Chicken kebab, beef kebab, kefta & lamb chop.", prices: [{ label: "Med", price: "$140", feeds: [8, 10] }, { label: "Lg", price: "$275", feeds: [12, 15] }] },
   ] },
   { slug: "traditional", label: "Traditional", items: [
-    { name: "M'sakhan", desc: "Fresh taboon bread with sautéed onions, sumac & pine nuts (with half chicken).", allergens: ["pine nuts"], prices: [{ price: "$85" }] },
-    { name: "Maklouba", desc: "Upside-down 6-layer dish of chicken, carrots, potatoes, cauliflower, eggplant & rice.", prices: [{ label: "Med", price: "$95" }, { label: "Lg", price: "$180" }] },
-    { name: "Fattat Jaj", desc: "6-layer dish of roasted chicken, rice, chickpeas, mint yogurt, crispy pita, garlic sauce & almonds.", allergens: ["almonds"], prices: [{ label: "Med", price: "$80" }, { label: "Lg", price: "$155" }] },
-    { name: "Mansaf", desc: "Bone-in lamb & fermented yogurt sauce over sajj bread & rice, topped with slivered almonds.", allergens: ["almonds"], prices: [{ label: "Med", price: "$150" }, { label: "Lg", price: "$300" }] },
-    { name: "Chicken Ouzi", desc: "Aromatic rice with tender roasted chicken & Middle Eastern spices.", prices: [{ label: "Med", price: "$80" }, { label: "Lg", price: "$160" }] },
-    { name: "Lamb Ouzi Royale", desc: "Royal rice dish with chunks of slow-roasted lamb & aromatic spices.", allergens: ["nuts"], prices: [{ label: "Med", price: "$120" }, { label: "Lg", price: "$240" }] },
+    { name: "M'sakhan", desc: "Fresh taboon bread with sautéed onions, sumac & pine nuts (with half chicken).", allergens: ["pine nuts"], prices: [{ label: "half chicken", price: "$85", feeds: [4, 6] }] },
+    { name: "Maklouba", desc: "Upside-down 6-layer dish of chicken, carrots, potatoes, cauliflower, eggplant & rice.", prices: [{ label: "Med", price: "$95", feeds: [8, 12] }, { label: "Lg", price: "$180", feeds: [12, 16] }] },
+    { name: "Fattat Jaj", desc: "6-layer dish of roasted chicken, rice, chickpeas, mint yogurt, crispy pita, garlic sauce & almonds.", allergens: ["almonds"], prices: [{ label: "Med", price: "$80", feeds: [8, 12] }, { label: "Lg", price: "$155", feeds: [12, 16] }] },
+    { name: "Mansaf", desc: "Bone-in lamb & fermented yogurt sauce over sajj bread & rice, topped with slivered almonds.", allergens: ["almonds"], prices: [{ label: "Med", price: "$150", feeds: [8, 12] }, { label: "Lg", price: "$300", feeds: [12, 16] }] },
+    { name: "Chicken Ouzi", desc: "Aromatic rice with tender roasted chicken & Middle Eastern spices.", prices: [{ label: "Med", price: "$80", feeds: [8, 12] }, { label: "Lg", price: "$160", feeds: [12, 16] }] },
+    { name: "Lamb Ouzi Royale", desc: "Royal rice dish with chunks of slow-roasted lamb & aromatic spices.", allergens: ["nuts"], prices: [{ label: "Med", price: "$120", feeds: [8, 12] }, { label: "Lg", price: "$240", feeds: [12, 16] }] },
   ] },
-  { slug: "sea", label: "From the Sea", note: "Sold by order", items: [
-    { name: "Seafood Mix Platter", desc: "Whole branzino, whole red snapper, shrimp kebabs & salmon kebabs over rice, with half a tray of house salad & pita.", prices: [{ label: "serves 8–10", price: "$275" }] },
+  { slug: "sea", label: "From the Sea", note: "Sold by order · serves 8–10", items: [
+    { name: "Seafood Mix Platter", desc: "Whole branzino, whole red snapper, shrimp kebabs & salmon kebabs over rice, with half a tray of house salad & pita.", prices: [{ label: "serves 8–10", price: "$275", feeds: [8, 10] }] },
   ] },
 ];
 
-function PriceTiers({ prices }) {
+const parsePrice = s => Number(String(s).replace(/[^0-9.]/g, "")) || 0;
+const feedsLabel = (min, max) => min === max ? `${min}` : `${min}–${max}`;
+
+function PriceTiers({ item, onAdd }) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "14px" }}>
-      {prices.map((p, i) => (
-        <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "52px",
-          padding: "7px 14px", borderRadius: "12px", border: "1px solid var(--bs)", background: "var(--gp)" }}>
-          {p.label && <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "9px", fontWeight: 500,
-            letterSpacing: ".1em", textTransform: "uppercase", color: "var(--tm)", marginBottom: "3px" }}>{p.label}</span>}
-          <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "18px", fontStyle: "italic", color: "var(--gold)" }}>{p.price}</span>
-        </div>
+      {item.prices.map((p, i) => (
+        <button key={i} onClick={() => onAdd(item, p)} title="Add to your order"
+          style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "58px",
+            padding: "8px 14px", borderRadius: "12px", border: "1px solid var(--bs)", background: "var(--gp)",
+            cursor: "pointer", transition: "all .25s ease", position: "relative", fontFamily: "'Work Sans',sans-serif" }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(184,134,11,.45)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--bs)"; e.currentTarget.style.background = "var(--gp)"; e.currentTarget.style.transform = "translateY(0)"; }}>
+          {p.label && <span style={{ fontSize: "9px", fontWeight: 500, letterSpacing: ".1em",
+            textTransform: "uppercase", color: "var(--tm)", marginBottom: "3px" }}>{p.label}</span>}
+          <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "18px", fontStyle: "italic", color: "var(--gd)" }}>{p.price}</span>
+          <span style={{ fontSize: "8px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase",
+            color: "var(--gold)", marginTop: "3px", display: "flex", alignItems: "center", gap: "3px" }}>
+            <span style={{ fontSize: "11px", lineHeight: 1 }}>+</span>Add</span>
+        </button>
       ))}
     </div>
   );
 }
 
-function CateringItem({ item, index }) {
+function CateringItem({ item, index, onAdd }) {
   const [h, setH] = useState(false);
   return (
     <AnimatedItem delay={Math.min(index, 6) * 0.05}>
@@ -99,23 +112,118 @@ function CateringItem({ item, index }) {
         </div>
         {item.desc && <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "13.5px", fontWeight: 300, color: "var(--ts)", lineHeight: 1.6 }}>{item.desc}</p>}
         {itemAllergens(item).length > 0 && <div style={{ marginTop: "10px" }}><AllergenNote item={item} /></div>}
-        <PriceTiers prices={item.prices} />
+        <PriceTiers item={item} onAdd={onAdd} />
       </div>
     </AnimatedItem>
   );
 }
+
+function OrderPlanner({ order, changeQty, clearOrder }) {
+  const [open, setOpen] = useState(false);
+  const count = order.reduce((n, o) => n + o.qty, 0);
+  const subtotal = order.reduce((n, o) => n + o.price * o.qty, 0);
+  const feedsMin = order.reduce((n, o) => n + o.feeds[0] * o.qty, 0);
+  const feedsMax = order.reduce((n, o) => n + o.feeds[1] * o.qty, 0);
+  if (count === 0) return null;
+
+  return (
+    <div style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 100,
+      display: "flex", flexDirection: "column", alignItems: "center", pointerEvents: "none" }}>
+      {open && (
+        <div style={{ pointerEvents: "auto", width: "100%", maxWidth: "560px", background: "#fff",
+          borderRadius: "20px 20px 0 0", boxShadow: "0 -12px 40px rgba(43,61,43,.18)", border: "1px solid var(--bs)",
+          borderBottom: "none", maxHeight: "70vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+          <div style={{ padding: "18px 22px 12px", borderBottom: "1px solid var(--bs)", display: "flex",
+            alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "22px", fontWeight: 600, color: "var(--gd)" }}>Your feast</p>
+              <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", color: "var(--tm)", marginTop: "2px" }}>
+                Estimated plan — final orders are placed on ayatnyc.com</p>
+            </div>
+            <button onClick={() => setOpen(false)} aria-label="Close" style={{ background: "none", border: "none",
+              cursor: "pointer", fontSize: "22px", color: "var(--tm)", lineHeight: 1, padding: "4px" }}>×</button>
+          </div>
+          <div style={{ overflowY: "auto", padding: "8px 22px" }}>
+            {order.map(o => (
+              <div key={o.id} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 0",
+                borderBottom: "1px solid var(--bs)" }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "17px", fontWeight: 600, color: "var(--tp)" }}>{o.name}</p>
+                  <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", color: "var(--tm)", marginTop: "1px" }}>
+                    {o.label ? o.label + " · " : ""}{o.display} · feeds ~{feedsLabel(o.feeds[0], o.feeds[1])}</p>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                  <button onClick={() => changeQty(o.id, -1)} style={qtyBtn}>−</button>
+                  <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "14px", fontWeight: 600, minWidth: "18px", textAlign: "center" }}>{o.qty}</span>
+                  <button onClick={() => changeQty(o.id, 1)} style={qtyBtn}>+</button>
+                </div>
+                <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "16px", fontStyle: "italic",
+                  color: "var(--gd)", minWidth: "48px", textAlign: "right", flexShrink: 0 }}>${o.price * o.qty}</span>
+              </div>
+            ))}
+            <button onClick={clearOrder} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px",
+              color: "var(--terra)", background: "none", border: "none", cursor: "pointer", padding: "12px 0",
+              letterSpacing: ".04em" }}>Clear plan</button>
+          </div>
+          <div style={{ padding: "16px 22px 22px", borderTop: "1px solid var(--bs)", background: "var(--gp)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: "4px" }}>
+              <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", letterSpacing: ".1em",
+                textTransform: "uppercase", color: "var(--tm)" }}>Estimated total</span>
+              <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "26px", fontStyle: "italic", color: "var(--gd)" }}>${subtotal}</span>
+            </div>
+            <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--ts)", marginBottom: "14px" }}>
+              Feeds approximately <strong style={{ color: "var(--gd)" }}>{feedsLabel(feedsMin, feedsMax)} people</strong></p>
+            <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center",
+              fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 600, letterSpacing: ".1em",
+              textTransform: "uppercase", color: "#F5F0E6", background: "var(--gd)", padding: "15px", borderRadius: "100px",
+              textDecoration: "none" }}>Place this order on ayatnyc.com</a>
+          </div>
+        </div>
+      )}
+      <div onClick={() => setOpen(o => !o)} style={{ pointerEvents: "auto", cursor: "pointer", width: "100%",
+        maxWidth: "560px", background: "var(--gd)", color: "#F5F0E6", padding: "14px 22px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        boxShadow: "0 -6px 24px rgba(43,61,43,.22)", borderRadius: open ? "0" : "16px 16px 0 0" }}>
+        <div>
+          <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "13px", fontWeight: 600 }}>
+            {count} {count === 1 ? "item" : "items"} · feeds ~{feedsLabel(feedsMin, feedsMax)}</p>
+          <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", opacity: .75, marginTop: "1px" }}>
+            {open ? "Tap to collapse" : "Tap to review your plan"}</p>
+        </div>
+        <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "22px", fontStyle: "italic" }}>${subtotal}</span>
+      </div>
+    </div>
+  );
+}
+
+const qtyBtn = { width: "26px", height: "26px", borderRadius: "50%", border: "1px solid var(--bs)",
+  background: "#fff", cursor: "pointer", fontSize: "16px", lineHeight: 1, color: "var(--gd)",
+  fontFamily: "'Work Sans',sans-serif", display: "flex", alignItems: "center", justifyContent: "center" };
 
 export default function CateringMenu() {
   const [heroVis, setHeroVis] = useState(false);
   const [diet, setDiet] = useState([]);
   const [allergy, setAllergy] = useState([]);
   const [active, setActive] = useState(CATERING[0].slug);
+  const [order, setOrder] = useState([]);
   const sR = useRef({}); const nR = useRef({}); const scR = useRef(null);
 
   const toggleDiet = useCallback(k => setDiet(d => d.includes(k) ? d.filter(x => x !== k) : [...d, k]), []);
   const toggleAllergy = useCallback(k => setAllergy(a => a.includes(k) ? a.filter(x => x !== k) : [...a, k]), []);
   const anyFilter = diet.length > 0 || allergy.length > 0;
   const clearAll = useCallback(() => { setDiet([]); setAllergy([]); }, []);
+
+  const addToOrder = useCallback((item, p) => {
+    const id = item.name + "|" + (p.label || "");
+    setOrder(o => {
+      const ex = o.find(x => x.id === id);
+      if (ex) return o.map(x => x.id === id ? { ...x, qty: x.qty + 1 } : x);
+      return [...o, { id, name: item.name, label: p.label || "", price: parsePrice(p.price), display: p.price, feeds: p.feeds || [0, 0], qty: 1 }];
+    });
+  }, []);
+  const changeQty = useCallback((id, d) => setOrder(o => o
+    .map(x => x.id === id ? { ...x, qty: x.qty + d } : x).filter(x => x.qty > 0)), []);
+  const clearOrder = useCallback(() => setOrder([]), []);
 
   const visibleCats = useMemo(() => CATERING
     .map(c => ({ ...c, items: c.items.filter(it => matchesDiet(it, diet) && matchesAllergy(it, allergy)) }))
@@ -143,27 +251,22 @@ export default function CateringMenu() {
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
         background: "radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)" }} />
 
-      <header style={{ minHeight: "46vh", display: "flex", flexDirection: "column", justifyContent: "center",
+      <header style={{ minHeight: "44vh", display: "flex", flexDirection: "column", justifyContent: "center",
         alignItems: "center", textAlign: "center", padding: "32px 24px 28px", position: "relative", zIndex: 1 }}>
         <div style={{ opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) scale(1)" : "translateY(20px) scale(.9)",
-          transition: "all 1.2s cubic-bezier(.16,1,.3,1) .3s", marginBottom: "14px" }}><AyatLogo width={150} /></div>
-        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1s ease .8s", marginBottom: "16px" }}>
-          <TatreezDivider color="var(--gd)" opacity={.25} /></div>
+          transition: "all 1.2s cubic-bezier(.16,1,.3,1) .3s", marginBottom: "18px" }}><AyatLogo width={150} /></div>
         <div style={{ opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)",
-          transition: "all 1s cubic-bezier(.16,1,.3,1) 1s" }}>
+          transition: "all 1s cubic-bezier(.16,1,.3,1) .8s" }}>
           <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(17px,3vw,22px)", fontWeight: 300,
             fontStyle: "italic", color: "var(--ts)", maxWidth: "400px", lineHeight: 1.5 }}>
             Feasts made to share — trays & platters for every gathering</p></div>
-        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.2s ease 1.2s", marginTop: "20px" }}>
-          <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 500,
-            letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gold)" }}>Catering Menu</p></div>
-        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.5s ease 1.4s", marginTop: "28px",
-          display: "flex", gap: "8px", flexWrap: "wrap", justifyContent: "center" }}>
-          {["Bushwick"].map(l =>
-            <span key={l} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "9px", fontWeight: 400,
-              letterSpacing: ".15em", textTransform: "uppercase", color: "var(--tm)",
-              padding: "5px 12px", borderRadius: "100px", border: "1px solid var(--bs)" }}>{l}</span>)}</div>
-        <div style={{ marginTop: "32px", opacity: heroVis ? 1 : 0, transition: "opacity 1.5s ease 1.6s",
+        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.2s ease 1s", marginTop: "20px" }}>
+          <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 600,
+            letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gd)" }}>Catering Menu</p></div>
+        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.3s ease 1.2s", marginTop: "10px" }}>
+          <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 400,
+            letterSpacing: ".05em", color: "var(--ts)" }}>Ideal for 8+ people (approx. $400+)</p></div>
+        <div style={{ marginTop: "32px", opacity: heroVis ? 1 : 0, transition: "opacity 1.5s ease 1.5s",
           display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", letterSpacing: ".2em",
             textTransform: "uppercase", color: "var(--tm)" }}>The Spread</p>
@@ -184,9 +287,12 @@ export default function CateringMenu() {
               padding: "8px 16px", borderRadius: "100px", cursor: "pointer",
               transition: "all .3s ease", whiteSpace: "nowrap", flexShrink: 0 }}>{c.label}</button>)}</div></nav>
 
-      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 24px 120px", position: "relative", zIndex: 1 }}>
+      <main style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 24px 140px", position: "relative", zIndex: 1 }}>
         <AnimatedItem><p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--tm)",
-          textAlign: "center", marginBottom: "28px", letterSpacing: ".03em" }}>All meats are halal</p></AnimatedItem>
+          textAlign: "center", marginBottom: "10px", letterSpacing: ".03em" }}>All meats are halal</p></AnimatedItem>
+        <AnimatedItem><p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontSize: "15px",
+          color: "var(--ts)", textAlign: "center", marginBottom: "28px" }}>
+          Tap any tray size to plan a sample order & see how many it feeds.</p></AnimatedItem>
         <AnimatedItem><div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
           flexWrap: "wrap", marginBottom: "48px" }}>
           <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", fontWeight: 500, letterSpacing: ".12em",
@@ -223,7 +329,7 @@ export default function CateringMenu() {
           {cat.note && <AnimatedItem><p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 400,
             letterSpacing: ".08em", textTransform: "uppercase", color: "var(--tm)", marginTop: "-16px", marginBottom: "24px" }}>{cat.note}</p></AnimatedItem>}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {cat.items.map((item, i) => <CateringItem key={item.name} item={item} index={i} />)}</div>
+            {cat.items.map((item, i) => <CateringItem key={item.name} item={item} index={i} onAdd={addToOrder} />)}</div>
           {ci < visibleCats.length - 1 && <AnimatedItem delay={.2}><div style={{ paddingTop: "40px" }}><TatreezDivider /></div></AnimatedItem>}
         </section>)}
 
@@ -236,6 +342,8 @@ export default function CateringMenu() {
             textTransform: "uppercase", color: "var(--tm)", opacity: .5, marginTop: "16px" }}>ayatbushwick.menu</p>
         </footer></AnimatedItem>
       </main>
+
+      <OrderPlanner order={order} changeQty={changeQty} clearOrder={clearOrder} />
     </div>
   );
 }
