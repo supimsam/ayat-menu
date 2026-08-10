@@ -43,11 +43,11 @@ body{background:var(--bg);color:var(--tp);font-family:'Work Sans',sans-serif;ove
 nav div::-webkit-scrollbar{display:none}
 `;
 
-const AyatLogo=({width=260,opacity=1})=>(
+export const AyatLogo=({width=260,opacity=1})=>(
   <svg viewBox="0 0 1015 643" width={width} height={width*(643/1015)} style={{opacity,display:"block"}}>
     <path d={LOGO_PATH} fill="#5C6B2E" fillRule="evenodd"/></svg>);
 
-const TatreezDivider=({color="var(--gm)",opacity:op=.15})=>(
+export const TatreezDivider=({color="var(--gm)",opacity:op=.15})=>(
   <svg width="120" height="20" viewBox="0 0 120 20" fill="none" style={{display:"block",margin:"0 auto"}}>
     <path d="M60 2 L66 10 L60 18 L54 10 Z" fill={color} fillOpacity={op}/>
     <path d="M44 10 L50 6 L50 14 Z" fill={color} fillOpacity={op*.7}/>
