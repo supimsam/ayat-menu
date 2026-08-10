@@ -72,29 +72,38 @@ const CATERING = [
 const parsePrice = s => Number(String(s).replace(/[^0-9.]/g, "")) || 0;
 const feedsLabel = (min, max) => min === max ? `${min}` : `${min}–${max}`;
 
-function PriceTiers({ item, onAdd }) {
+function PriceTiers({ item, onAdd, mock }) {
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "14px" }}>
-      {item.prices.map((p, i) => (
-        <button key={i} onClick={() => onAdd(item, p)} title="Add to your order"
-          style={{ display: "flex", flexDirection: "column", alignItems: "center", minWidth: "58px",
-            padding: "8px 14px", borderRadius: "12px", border: "1px solid var(--bs)", background: "var(--gp)",
-            cursor: "pointer", transition: "all .25s ease", position: "relative", fontFamily: "'Work Sans',sans-serif" }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(184,134,11,.45)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--bs)"; e.currentTarget.style.background = "var(--gp)"; e.currentTarget.style.transform = "translateY(0)"; }}>
-          {p.label && <span style={{ fontSize: "9px", fontWeight: 500, letterSpacing: ".1em",
-            textTransform: "uppercase", color: "var(--tm)", marginBottom: "3px" }}>{p.label}</span>}
-          <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "18px", fontStyle: "italic", color: "var(--gd)" }}>{p.price}</span>
-          <span style={{ fontSize: "8px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase",
-            color: "var(--gold)", marginTop: "3px", display: "flex", alignItems: "center", gap: "3px" }}>
-            <span style={{ fontSize: "11px", lineHeight: 1 }}>+</span>Add</span>
-        </button>
-      ))}
+      {item.prices.map((p, i) => {
+        const inner = (
+          <>
+            {p.label && <span style={{ fontSize: "9px", fontWeight: 500, letterSpacing: ".1em",
+              textTransform: "uppercase", color: "var(--tm)", marginBottom: "3px" }}>{p.label}</span>}
+            <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "18px", fontStyle: "italic", color: "var(--gd)" }}>{p.price}</span>
+            {mock && <span style={{ fontSize: "8px", fontWeight: 600, letterSpacing: ".06em", textTransform: "uppercase",
+              color: "var(--gold)", marginTop: "3px", display: "flex", alignItems: "center", gap: "3px" }}>
+              <span style={{ fontSize: "11px", lineHeight: 1 }}>+</span>Add</span>}
+          </>
+        );
+        const base = { display: "flex", flexDirection: "column", alignItems: "center", minWidth: "58px",
+          padding: "8px 14px", borderRadius: "12px", border: "1px solid var(--bs)", background: "var(--gp)",
+          fontFamily: "'Work Sans',sans-serif" };
+        if (!mock) return <div key={i} style={base}>{inner}</div>;
+        return (
+          <button key={i} onClick={() => onAdd(item, p)} title="Add to your order"
+            style={{ ...base, cursor: "pointer", transition: "all .25s ease", position: "relative" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(184,134,11,.45)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--bs)"; e.currentTarget.style.background = "var(--gp)"; e.currentTarget.style.transform = "translateY(0)"; }}>
+            {inner}
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-function CateringItem({ item, index, onAdd }) {
+function CateringItem({ item, index, onAdd, mock }) {
   const [h, setH] = useState(false);
   return (
     <AnimatedItem delay={Math.min(index, 6) * 0.05}>
@@ -112,7 +121,7 @@ function CateringItem({ item, index, onAdd }) {
         </div>
         {item.desc && <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "13.5px", fontWeight: 300, color: "var(--ts)", lineHeight: 1.6 }}>{item.desc}</p>}
         {itemAllergens(item).length > 0 && <div style={{ marginTop: "10px" }}><AllergenNote item={item} /></div>}
-        <PriceTiers item={item} onAdd={onAdd} />
+        <PriceTiers item={item} onAdd={onAdd} mock={mock} />
       </div>
     </AnimatedItem>
   );
@@ -206,6 +215,7 @@ export default function CateringMenu() {
   const [allergy, setAllergy] = useState([]);
   const [active, setActive] = useState(CATERING[0].slug);
   const [order, setOrder] = useState([]);
+  const [mockMode, setMockMode] = useState(false);
   const sR = useRef({}); const nR = useRef({}); const scR = useRef(null);
 
   const toggleDiet = useCallback(k => setDiet(d => d.includes(k) ? d.filter(x => x !== k) : [...d, k]), []);
@@ -224,6 +234,7 @@ export default function CateringMenu() {
   const changeQty = useCallback((id, d) => setOrder(o => o
     .map(x => x.id === id ? { ...x, qty: x.qty + d } : x).filter(x => x.qty > 0)), []);
   const clearOrder = useCallback(() => setOrder([]), []);
+  const toggleMock = useCallback(() => setMockMode(m => { if (m) setOrder([]); return !m; }), []);
 
   const visibleCats = useMemo(() => CATERING
     .map(c => ({ ...c, items: c.items.filter(it => matchesDiet(it, diet) && matchesAllergy(it, allergy)) }))
@@ -290,9 +301,24 @@ export default function CateringMenu() {
       <main style={{ maxWidth: "800px", margin: "0 auto", padding: "48px 24px 140px", position: "relative", zIndex: 1 }}>
         <AnimatedItem><p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--tm)",
           textAlign: "center", marginBottom: "10px", letterSpacing: ".03em" }}>All meats are halal</p></AnimatedItem>
-        <AnimatedItem><p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontSize: "15px",
-          color: "var(--ts)", textAlign: "center", marginBottom: "28px" }}>
-          Tap any tray size to plan a sample order & see how many it feeds.</p></AnimatedItem>
+        <AnimatedItem><div style={{ display: "flex", flexDirection: "column", alignItems: "center",
+          gap: "10px", marginBottom: "28px" }}>
+          <button onClick={toggleMock} style={{ display: "flex", alignItems: "center", gap: "10px",
+            fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 600, letterSpacing: ".08em",
+            textTransform: "uppercase", color: mockMode ? "var(--gd)" : "var(--tm)",
+            background: mockMode ? "var(--gp)" : "transparent",
+            border: `1px solid ${mockMode ? "rgba(43,61,43,.18)" : "var(--bs)"}`, padding: "10px 20px",
+            borderRadius: "100px", cursor: "pointer", transition: "all .3s ease" }}>
+            <span style={{ width: "16px", height: "16px", borderRadius: "4px", flexShrink: 0,
+              border: `1.5px solid ${mockMode ? "var(--gd)" : "var(--tm)"}`,
+              background: mockMode ? "var(--gd)" : "transparent", display: "flex", alignItems: "center",
+              justifyContent: "center", color: "#F5F0E6", fontSize: "11px", lineHeight: 1 }}>{mockMode ? "✓" : ""}</span>
+            Create a mock order</button>
+          {mockMode && <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontSize: "15px",
+            color: "var(--ts)", textAlign: "center", maxWidth: "420px", lineHeight: 1.5 }}>
+            Tap any tray size to build a sample order & see how many it feeds. This is just for planning — place your
+            actual order on ayatnyc.com.</p>}
+        </div></AnimatedItem>
         <AnimatedItem><div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
           flexWrap: "wrap", marginBottom: "48px" }}>
           <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", fontWeight: 500, letterSpacing: ".12em",
@@ -329,7 +355,7 @@ export default function CateringMenu() {
           {cat.note && <AnimatedItem><p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 400,
             letterSpacing: ".08em", textTransform: "uppercase", color: "var(--tm)", marginTop: "-16px", marginBottom: "24px" }}>{cat.note}</p></AnimatedItem>}
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {cat.items.map((item, i) => <CateringItem key={item.name} item={item} index={i} onAdd={addToOrder} />)}</div>
+            {cat.items.map((item, i) => <CateringItem key={item.name} item={item} index={i} onAdd={addToOrder} mock={mockMode} />)}</div>
           {ci < visibleCats.length - 1 && <AnimatedItem delay={.2}><div style={{ paddingTop: "40px" }}><TatreezDivider /></div></AnimatedItem>}
         </section>)}
 
