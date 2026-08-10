@@ -205,8 +205,14 @@ function OrderPlanner({ order, changeQty, clearOrder }) {
             </div>
             <div style={{ marginBottom: "14px" }}>
               {courses.map(c => (
-                <p key={c.name} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--ts)", marginTop: "2px" }}>
-                  {c.name} to share across <strong style={{ color: "var(--gd)" }}>{feedsLabel(c.min, c.max)} people</strong></p>
+                <div key={c.name} style={{ marginTop: "8px" }}>
+                  <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--ts)" }}>
+                    {c.name} to share across <strong style={{ color: "var(--gd)" }}>{feedsLabel(c.min, c.max)} people</strong></p>
+                  <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", color: "var(--tm)", marginTop: "1px", lineHeight: 1.5 }}>
+                    {order.filter(o => o.course === c.name)
+                      .map(o => o.name + (o.label ? " · " + o.label : "") + (o.qty > 1 ? " ×" + o.qty : ""))
+                      .join(", ")}</p>
+                </div>
               ))}
             </div>
             <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center",
