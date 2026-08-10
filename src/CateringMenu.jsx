@@ -289,6 +289,13 @@ export default function CateringMenu() {
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
         background: "radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)" }} />
 
+      <a href="/" style={{ position: "absolute", top: "20px", left: "20px", zIndex: 10, display: "flex",
+        alignItems: "center", gap: "6px", fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 500,
+        letterSpacing: ".1em", textTransform: "uppercase", color: "var(--gd)", textDecoration: "none",
+        padding: "9px 16px", borderRadius: "100px", border: "1px solid var(--bs)",
+        background: "rgba(245,240,230,.7)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)" }}>
+        <span style={{ fontSize: "13px", lineHeight: 1 }}>←</span> Menu</a>
+
       <header style={{ minHeight: "44vh", display: "flex", flexDirection: "column", justifyContent: "center",
         alignItems: "center", textAlign: "center", padding: "32px 24px 28px", position: "relative", zIndex: 1 }}>
         <div style={{ opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) scale(1)" : "translateY(20px) scale(.9)",
