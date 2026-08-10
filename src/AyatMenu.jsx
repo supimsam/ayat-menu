@@ -330,9 +330,14 @@ export default function AyatMenu(){
           <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"15px",fontWeight:300,fontStyle:"italic",
             color:"var(--tm)",lineHeight:1.8,maxWidth:"340px",margin:"0 auto 12px"}}>
             At our table, every guest becomes family, and every dish comes with a story to be shared.</p>
-          <a href="/catering" style={{display:"inline-block",fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
-            fontWeight:500,letterSpacing:".15em",textTransform:"uppercase",color:"var(--gd)",textDecoration:"none",
-            padding:"10px 22px",borderRadius:"100px",border:"1px solid var(--bs)",marginTop:"8px"}}>View Catering Menu</a>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"12px",marginTop:"8px"}}>
+            <a href="https://www.saveahost.com/book/ayat-bushwick" target="_blank" rel="noopener noreferrer"
+              style={{display:"inline-block",fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
+              fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:"#F5F0E6",textDecoration:"none",
+              padding:"12px 24px",borderRadius:"100px",background:"var(--gd)"}}>Book a Reservation at Our Location</a>
+            <a href="/catering" style={{display:"inline-block",fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
+              fontWeight:500,letterSpacing:".15em",textTransform:"uppercase",color:"var(--gd)",textDecoration:"none",
+              padding:"10px 22px",borderRadius:"100px",border:"1px solid var(--bs)"}}>View Catering Menu</a></div>
           <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".15em",
             textTransform:"uppercase",color:"var(--tm)",opacity:.5,marginTop:"20px"}}>ayatbushwick.menu</p>
         </footer></AnimatedItem></>}
