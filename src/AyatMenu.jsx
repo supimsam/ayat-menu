@@ -264,38 +264,38 @@ export default function AyatMenu(){
             background:active===c.slug?"var(--gp)":"transparent",
             border:active===c.slug?"1px solid rgba(43,61,43,.1)":"1px solid transparent",
             padding:"8px 16px",borderRadius:"100px",cursor:"pointer",
-            transition:"all .3s ease",whiteSpace:"nowrap",flexShrink:0}}>{c.label}</button>)}</div>
-      <div style={{maxWidth:"800px",margin:"0 auto",display:"flex",alignItems:"center",gap:"8px",
-        padding:"0 0 10px",flexWrap:"wrap"}}>
-        <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:".12em",
-          textTransform:"uppercase",color:"var(--tm)",flexShrink:0}}>Dietary</span>
-        {dietFilters.map(f=>{const on=diet.includes(f.key);return <button key={f.key} onClick={()=>toggleDiet(f.key)}
-          style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:on?600:400,letterSpacing:".04em",
-            color:on?"var(--gd)":"var(--tm)",background:on?"var(--gp)":"transparent",
-            border:`1px solid ${on?"rgba(43,61,43,.18)":"var(--bs)"}`,padding:"6px 14px",borderRadius:"100px",
-            cursor:"pointer",transition:"all .3s ease",whiteSpace:"nowrap"}}>{on?"✓ ":""}{f.label}</button>;})}
-        <span style={{width:"1px",height:"18px",background:"var(--bs)",flexShrink:0}}/>
-        <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:".12em",
-          textTransform:"uppercase",color:"var(--tm)",flexShrink:0}}>Allergies</span>
-        {allergyFilters.map(f=>{const on=allergy.includes(f.key);return <button key={f.key} onClick={()=>toggleAllergy(f.key)}
-          style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:on?600:400,letterSpacing:".04em",
-            color:on?"var(--terra)":"var(--tm)",background:on?"rgba(184,92,56,.08)":"transparent",
-            border:`1px solid ${on?"rgba(184,92,56,.28)":"var(--bs)"}`,padding:"6px 14px",borderRadius:"100px",
-            cursor:"pointer",transition:"all .3s ease",whiteSpace:"nowrap"}}>{on?"✕ ":""}{f.label}</button>;})}
-        {anyFilter&&<button onClick={clearAll} style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
-          fontWeight:400,color:"var(--terra)",background:"transparent",border:"none",padding:"6px 8px",
-          cursor:"pointer",letterSpacing:".04em"}}>Clear</button>}
-        {anyFilter&&<span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",color:"var(--tm)",
-          marginLeft:"auto",flexShrink:0}}>{totalShown} {totalShown===1?"dish":"dishes"}</span>}
-      </div></nav>}
+            transition:"all .3s ease",whiteSpace:"nowrap",flexShrink:0}}>{c.label}</button>)}</div></nav>}
 
     <main style={{maxWidth:"800px",margin:"0 auto",padding:"48px 24px 120px",position:"relative",zIndex:1}}>
       {loading&&<LoadingSkeleton/>}
       {error&&<div style={{textAlign:"center",padding:"40px",color:"var(--terra)"}}><p>Could not load the menu. Please try refreshing.</p></div>}
       {!loading&&!error&&<>
         <AnimatedItem><p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",color:"var(--tm)",
-          textAlign:"center",marginBottom:"40px",letterSpacing:".03em"}}>
-          Prices and items may vary by location · All meats are halal</p></AnimatedItem>
+          textAlign:"center",marginBottom:"28px",letterSpacing:".03em"}}>
+          All meats are halal</p></AnimatedItem>
+        <AnimatedItem><div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:"8px",
+          flexWrap:"wrap",marginBottom:"48px"}}>
+          <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:".12em",
+            textTransform:"uppercase",color:"var(--tm)",flexShrink:0}}>Dietary</span>
+          {dietFilters.map(f=>{const on=diet.includes(f.key);return <button key={f.key} onClick={()=>toggleDiet(f.key)}
+            style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:on?600:400,letterSpacing:".04em",
+              color:on?"var(--gd)":"var(--tm)",background:on?"var(--gp)":"transparent",
+              border:`1px solid ${on?"rgba(43,61,43,.18)":"var(--bs)"}`,padding:"6px 14px",borderRadius:"100px",
+              cursor:"pointer",transition:"all .3s ease",whiteSpace:"nowrap"}}>{on?"✓ ":""}{f.label}</button>;})}
+          <span style={{width:"1px",height:"18px",background:"var(--bs)",flexShrink:0}}/>
+          <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:".12em",
+            textTransform:"uppercase",color:"var(--tm)",flexShrink:0}}>Allergies</span>
+          {allergyFilters.map(f=>{const on=allergy.includes(f.key);return <button key={f.key} onClick={()=>toggleAllergy(f.key)}
+            style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:on?600:400,letterSpacing:".04em",
+              color:on?"var(--terra)":"var(--tm)",background:on?"rgba(184,92,56,.08)":"transparent",
+              border:`1px solid ${on?"rgba(184,92,56,.28)":"var(--bs)"}`,padding:"6px 14px",borderRadius:"100px",
+              cursor:"pointer",transition:"all .3s ease",whiteSpace:"nowrap"}}>{on?"✕ ":""}{f.label}</button>;})}
+          {anyFilter&&<button onClick={clearAll} style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
+            fontWeight:400,color:"var(--terra)",background:"transparent",border:"none",padding:"6px 8px",
+            cursor:"pointer",letterSpacing:".04em"}}>Clear</button>}
+          {anyFilter&&<span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",color:"var(--tm)",
+            flexShrink:0}}>· {totalShown} {totalShown===1?"dish":"dishes"}</span>}
+        </div></AnimatedItem>
         {totalShown===0&&<div style={{textAlign:"center",padding:"60px 20px"}}>
           <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"22px",fontStyle:"italic",color:"var(--tm)",marginBottom:"16px"}}>
             No dishes match those filters.</p>
