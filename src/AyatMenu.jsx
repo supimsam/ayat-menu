@@ -18,10 +18,10 @@ const SPOTLIGHT_IMAGES = {
   "Halloumi & Watermelon": imgHalloumiWatermelon,
   "Shatta-Fired Wings": imgWings,
   "M'sakhan": imgMsakhan,
-  "Chicken Kebab": imgChickenKebab,
+  "Chicken Kebab (Large)": imgChickenKebab,
   "Hibiscus Margarita": imgHibiscus,
   "Vegan Platter": imgVeganPlatter,
-  "Araby Chicken Shawarma Sandwich": imgArabyChickenShawarma,
+  "Araby Chicken Shawarma": imgArabyChickenShawarma,
   "Lamb Ouzi Royale": IMG_OUZI,
 };
 

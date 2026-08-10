@@ -69,6 +69,15 @@ const CATERING = [
   ] },
 ];
 
+// Group the menu sections into coarse courses. Within a course, dishes are shared
+// in parallel, so the course feeds ~the largest single dish (scaled by its qty) —
+// NOT the sum of every dish (which would wildly overstate headcount).
+const COURSE_OF_SLUG = { cold: "Appetizers", hot: "Appetizers", pizza: "Pizza",
+  quick: "Mains", shawarma: "Mains", mashawy: "Mains", traditional: "Mains", sea: "Mains" };
+const COURSE_ORDER = ["Appetizers", "Pizza", "Mains"];
+const ITEM_COURSE = {};
+CATERING.forEach(c => c.items.forEach(it => { ITEM_COURSE[it.name] = COURSE_OF_SLUG[c.slug] || "Mains"; }));
+
 const parsePrice = s => Number(String(s).replace(/[^0-9.]/g, "")) || 0;
 const feedsLabel = (min, max) => min === max ? `${min}` : `${min}–${max}`;
 
@@ -131,8 +140,22 @@ function OrderPlanner({ order, changeQty, clearOrder }) {
   const [open, setOpen] = useState(false);
   const count = order.reduce((n, o) => n + o.qty, 0);
   const subtotal = order.reduce((n, o) => n + o.price * o.qty, 0);
-  const feedsMin = order.reduce((n, o) => n + o.feeds[0] * o.qty, 0);
-  const feedsMax = order.reduce((n, o) => n + o.feeds[1] * o.qty, 0);
+
+  // Headcount is estimated per course, not by summing every dish. Within a course
+  // the dishes are shared side-by-side, so the course feeds ~the largest single
+  // dish (scaled by qty). Across courses everyone eats each course, so the overall
+  // range is the element-wise max of the courses.
+  const courses = COURSE_ORDER
+    .map(name => {
+      const lines = order.filter(o => o.course === name);
+      if (lines.length === 0) return null;
+      const min = Math.max(...lines.map(o => o.feeds[0] * o.qty));
+      const max = Math.max(...lines.map(o => o.feeds[1] * o.qty));
+      return { name, min, max };
+    })
+    .filter(Boolean);
+  const feedsMin = courses.length ? Math.max(...courses.map(c => c.min)) : 0;
+  const feedsMax = courses.length ? Math.max(...courses.map(c => c.max)) : 0;
   if (count === 0) return null;
 
   return (
@@ -180,8 +203,12 @@ function OrderPlanner({ order, changeQty, clearOrder }) {
                 textTransform: "uppercase", color: "var(--tm)" }}>Estimated total</span>
               <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "26px", fontStyle: "italic", color: "var(--gd)" }}>${subtotal}</span>
             </div>
-            <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--ts)", marginBottom: "14px" }}>
-              Feeds approximately <strong style={{ color: "var(--gd)" }}>{feedsLabel(feedsMin, feedsMax)} people</strong></p>
+            <div style={{ marginBottom: "14px" }}>
+              {courses.map(c => (
+                <p key={c.name} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--ts)", marginTop: "2px" }}>
+                  {c.name} to share across <strong style={{ color: "var(--gd)" }}>{feedsLabel(c.min, c.max)} people</strong></p>
+              ))}
+            </div>
             <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center",
               fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 600, letterSpacing: ".1em",
               textTransform: "uppercase", color: "#F5F0E6", background: "var(--gd)", padding: "15px", borderRadius: "100px",
@@ -228,7 +255,7 @@ export default function CateringMenu() {
     setOrder(o => {
       const ex = o.find(x => x.id === id);
       if (ex) return o.map(x => x.id === id ? { ...x, qty: x.qty + 1 } : x);
-      return [...o, { id, name: item.name, label: p.label || "", price: parsePrice(p.price), display: p.price, feeds: p.feeds || [0, 0], qty: 1 }];
+      return [...o, { id, name: item.name, label: p.label || "", price: parsePrice(p.price), display: p.price, feeds: p.feeds || [0, 0], course: ITEM_COURSE[item.name] || "Mains", qty: 1 }];
     });
   }, []);
   const changeQty = useCallback((id, d) => setOrder(o => o
