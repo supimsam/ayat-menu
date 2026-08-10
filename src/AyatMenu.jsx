@@ -196,7 +196,7 @@ export default function AyatMenu(){
           letterSpacing:".3em",textTransform:"uppercase",color:"var(--gold)"}}>Palestinian Soul Food</p></div>
       <div style={{opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.4s",marginTop:"28px",
         display:"flex",gap:"8px",flexWrap:"wrap",justifyContent:"center"}}>
-        {["Bushwick","Bay Ridge","East Village","Astoria","Ditmas Park"].map(l=>
+        {["Bushwick"].map(l=>
           <span key={l} style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:400,
             letterSpacing:".15em",textTransform:"uppercase",color:"var(--tm)",
             padding:"5px 12px",borderRadius:"100px",border:"1px solid var(--bs)"}}>{l}</span>)}</div>
