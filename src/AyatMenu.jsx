@@ -328,7 +328,6 @@ export default function AyatMenu(){
           {ci<visibleCats.length-1&&<AnimatedItem delay={.2}><div style={{paddingTop:"40px"}}><TatreezDivider/></div></AnimatedItem>}
         </section>)}
         <AnimatedItem><footer style={{textAlign:"center",paddingTop:"40px",borderTop:"1px solid var(--bs)"}}>
-          <div style={{marginBottom:"16px",opacity:.5}}><AyatLogo width={130}/></div>
           <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"15px",fontWeight:300,fontStyle:"italic",
             color:"var(--tm)",lineHeight:1.8,maxWidth:"340px",margin:"0 auto 12px"}}>
             At our table, every guest becomes family, and every dish comes with a story to be shared.</p>
