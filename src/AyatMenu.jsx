@@ -51,8 +51,8 @@ export const TatreezDivider=({color="#B9BEB4",opacity:op=1})=>{
   const leaf="M0 0 C4 -8 7 -16 0 -32 C-7 -16 -4 -8 0 0 Z";
   return (
     <svg width="32" height="32" viewBox="0 0 40 40" fill="none" style={{display:"block",margin:"0 auto"}}>
-      <path transform="translate(20 37) rotate(-31)" d={leaf} fill={color} fillOpacity={op}/>
-      <path transform="translate(20 37) rotate(31)" d={leaf} fill={color} fillOpacity={op}/>
+      <path transform="translate(20 37) rotate(-37)" d={leaf} fill={color} fillOpacity={op}/>
+      <path transform="translate(20 37) rotate(37)" d={leaf} fill={color} fillOpacity={op}/>
     </svg>);
 };
 
