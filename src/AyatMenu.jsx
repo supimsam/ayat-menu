@@ -113,11 +113,11 @@ function SpotlightDish({item,index}){
           :"linear-gradient(180deg,transparent 20%,rgba(12,10,9,.4) 60%,rgba(12,10,9,.82) 100%)",transition:"background .5s ease"}}/>
       <div style={{position:"absolute",top:0,left:0,right:0,height:"2px",
         background:hovered?"linear-gradient(90deg,transparent,rgba(184,134,11,.6),transparent)":"transparent",transition:"all .4s ease"}}/>
-      <div style={{position:"absolute",top:"20px",left:"20px",opacity:vis?1:0,transform:vis?"translateX(0)":"translateX(-10px)",
+      {item.is_spotlight&&<div style={{position:"absolute",top:"20px",left:"20px",opacity:vis?1:0,transform:vis?"translateX(0)":"translateX(-10px)",
         transition:"all .6s cubic-bezier(.16,1,.3,1) .3s"}}>
         <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",
           color:"rgba(255,255,255,.7)",padding:"5px 12px",borderRadius:"100px",
-          background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)"}}>Signature</span></div>
+          background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)"}}>Signature</span></div>}
       <div style={{position:"absolute",bottom:0,left:0,right:0,padding:"28px 28px 24px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
           <div>
