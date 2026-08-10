@@ -55,7 +55,7 @@ export const TatreezDivider=({color="#B9BEB4",opacity:op=1})=>{
 export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"V",color:"var(--gm)"},VG:{label:"VG",color:"var(--terra)"}};
 
 // Dietary filters. Note: vegan (VG) items are also vegetarian, so "Vegetarian" matches V OR VG.
-export const dietFilters=[{key:"VG",label:"Vegan"},{key:"V",label:"Vegetarian"},{key:"GF",label:"Gluten-Free (Celiac)"}];
+export const dietFilters=[{key:"VG",label:"Vegan"},{key:"V",label:"Vegetarian"},{key:"GF",label:"Gluten-Free"}];
 export const matchesDiet=(item,active)=>active.every(f=>
   f==="V"?(item.tags?.includes("V")||item.tags?.includes("VG")):item.tags?.includes(f));
 

@@ -209,9 +209,7 @@ function OrderPlanner({ order, changeQty, clearOrder }) {
                   <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", color: "var(--ts)" }}>
                     {c.name} to share across <strong style={{ color: "var(--gd)" }}>{feedsLabel(c.min, c.max)} people</strong></p>
                   <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", color: "var(--tm)", marginTop: "1px", lineHeight: 1.5 }}>
-                    {order.filter(o => o.course === c.name)
-                      .map(o => o.name + (o.label ? " · " + o.label : "") + (o.qty > 1 ? " ×" + o.qty : ""))
-                      .join(", ")}</p>
+                    {[...new Set(order.filter(o => o.course === c.name).map(o => o.name))].join(", ")}</p>
                 </div>
               ))}
             </div>
