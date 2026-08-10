@@ -114,7 +114,7 @@ function SpotlightDish({item,index}){
         transition:"all .6s cubic-bezier(.16,1,.3,1) .3s"}}>
         <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",
           color:"rgba(255,255,255,.7)",padding:"5px 12px",borderRadius:"100px",
-          background:"rgba(255,255,255,.1)",backdropFilter:"blur(8px)",border:"1px solid rgba(255,255,255,.12)"}}>Signature</span></div>}
+          background:"var(--gm)",border:"1px solid rgba(255,255,255,.18)",boxShadow:"0 2px 8px rgba(43,61,43,.3)"}}>Signature</span></div>}
       <div style={{position:"absolute",bottom:0,left:0,right:0,padding:"28px 28px 24px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
           <div>
