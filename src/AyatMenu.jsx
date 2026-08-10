@@ -239,12 +239,6 @@ export default function AyatMenu(){
     <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
 
-    <a href="/catering" style={{position:"fixed",top:"16px",right:"16px",zIndex:60,
-      fontFamily:"'Work Sans',sans-serif",fontSize:"10px",fontWeight:500,letterSpacing:".15em",
-      textTransform:"uppercase",color:"var(--gd)",textDecoration:"none",
-      padding:"7px 14px",borderRadius:"100px",border:"1px solid var(--bs)",
-      background:"rgba(245,240,230,.8)",backdropFilter:"blur(10px)",WebkitBackdropFilter:"blur(10px)"}}>Catering</a>
-
     <header style={{minHeight:"46vh",display:"flex",flexDirection:"column",justifyContent:"center",
       alignItems:"center",textAlign:"center",padding:"32px 24px 28px",position:"relative",zIndex:1}}>
       <div style={{opacity:heroVis?1:0,transform:heroVis?"translateY(0) scale(1)":"translateY(20px) scale(.9)",
@@ -335,7 +329,10 @@ export default function AyatMenu(){
           <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"15px",fontWeight:300,fontStyle:"italic",
             color:"var(--tm)",lineHeight:1.8,maxWidth:"340px",margin:"0 auto 12px"}}>
             At our table, every guest becomes family, and every dish comes with a story to be shared.</p>
+          <a href="/catering" style={{display:"inline-block",fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
+            fontWeight:500,letterSpacing:".15em",textTransform:"uppercase",color:"var(--gd)",textDecoration:"none",
+            padding:"10px 22px",borderRadius:"100px",border:"1px solid var(--bs)",marginTop:"8px"}}>View Catering Menu</a>
           <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".15em",
-            textTransform:"uppercase",color:"var(--tm)",opacity:.5,marginTop:"16px"}}>ayatbushwick.menu</p>
+            textTransform:"uppercase",color:"var(--tm)",opacity:.5,marginTop:"20px"}}>ayatbushwick.menu</p>
         </footer></AnimatedItem></>}
     </main></div>;}
