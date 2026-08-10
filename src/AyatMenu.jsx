@@ -47,15 +47,10 @@ export const AyatLogo=({width=260,opacity=1})=>(
   <svg viewBox="0 0 1015 643" width={width} height={width*(643/1015)} style={{opacity,display:"block"}}>
     <path d={LOGO_PATH} fill="#5C6B2E" fillRule="evenodd"/></svg>);
 
-export const TatreezDivider=({color="var(--gm)",opacity:op=.15})=>(
-  <svg width="120" height="20" viewBox="0 0 120 20" fill="none" style={{display:"block",margin:"0 auto"}}>
-    <path d="M60 2 L66 10 L60 18 L54 10 Z" fill={color} fillOpacity={op}/>
-    <path d="M44 10 L50 6 L50 14 Z" fill={color} fillOpacity={op*.7}/>
-    <path d="M76 10 L70 6 L70 14 Z" fill={color} fillOpacity={op*.7}/>
-    <path d="M30 10 L36 7 L36 13 Z" fill={color} fillOpacity={op*.5}/>
-    <path d="M90 10 L84 7 L84 13 Z" fill={color} fillOpacity={op*.5}/>
-    <circle cx="20" cy="10" r="2" fill={color} fillOpacity={op*.4}/>
-    <circle cx="100" cy="10" r="2" fill={color} fillOpacity={op*.4}/>
+export const TatreezDivider=({color="#B9BEB4",opacity:op=1})=>(
+  <svg width="34" height="29" viewBox="0 0 40 34" fill="none" style={{display:"block",margin:"0 auto"}}>
+    <path d="M20 30 C10 25 5 15 8 4 C13 12 18 21 20 30 Z" fill={color} fillOpacity={op}/>
+    <path d="M20 30 C30 25 35 15 32 4 C27 12 22 21 20 30 Z" fill={color} fillOpacity={op}/>
   </svg>);
 
 export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"V",color:"var(--gm)"},VG:{label:"VG",color:"var(--terra)"}};
