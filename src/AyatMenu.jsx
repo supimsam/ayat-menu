@@ -28,7 +28,7 @@ const SPOTLIGHT_IMAGES = {
 export const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&display=swap');
 :root{--bg:#F5F0E6;--card:#FFF;--card-h:#FDFCF9;--gd:#2B3D2B;--gm:#3D5A3D;--gl:#5A7A52;--gp:rgba(43,61,43,.06);
---gold:#B8860B;--terra:#B85C38;--tp:#2B3D2B;--ts:#6B7D6B;--tm:#9BA89B;--bs:rgba(43,61,43,.08);
+--gold:#B8860B;--terra:#B85C38;--tp:#2B3D2B;--ts:#5A6B5A;--tm:#7E8C7E;--bs:rgba(43,61,43,.08);
 --ss:0 2px 8px rgba(43,61,43,.06);--sh:0 20px 50px rgba(43,61,43,.12),0 0 0 1px rgba(184,134,11,.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
