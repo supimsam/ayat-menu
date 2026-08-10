@@ -220,17 +220,20 @@ export default function AyatMenu(){
 
   useEffect(()=>{
     const f=()=>{const c=scR.current;if(!c||categories.length===0)return;let cur=categories[0].slug;
-      for(const cat of categories){const el=sR.current[cat.slug];if(el&&el.offsetTop-c.offsetTop<=c.scrollTop+180)cur=cat.slug;}
+      const cTop=c.getBoundingClientRect().top;
+      for(const cat of categories){const el=sR.current[cat.slug];if(el&&el.getBoundingClientRect().top-cTop<=140)cur=cat.slug;}
       setActive(cur);};
     const c=scR.current;if(c){c.addEventListener("scroll",f,{passive:true});return()=>c.removeEventListener("scroll",f);}
   },[categories]);
 
-  useEffect(()=>{const b=nR.current[active];if(b)b.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"});},[active]);
+  useEffect(()=>{const b=nR.current[active];const p=b&&b.parentElement;if(b&&p){
+    const left=p.scrollLeft+(b.getBoundingClientRect().left-p.getBoundingClientRect().left)-p.clientWidth/2+b.clientWidth/2;
+    p.scrollTo({left,behavior:"smooth"});}},[active]);
 
   useEffect(()=>{if(visibleCats.length>0&&!visibleCats.some(c=>c.slug===active))setActive(visibleCats[0].slug);},[visibleCats,active]);
 
   const goTo=useCallback(id=>{const el=sR.current[id];const c=scR.current;
-    if(el&&c)c.scrollTo({top:el.offsetTop-c.offsetTop-120,behavior:"smooth"});},[]);
+    if(el&&c)c.scrollTo({top:c.scrollTop+el.getBoundingClientRect().top-c.getBoundingClientRect().top-90,behavior:"smooth"});},[]);
 
   return <div ref={scR} style={{height:"100vh",overflowY:"auto",overflowX:"hidden",background:"var(--bg)",position:"relative"}}>
     <style>{CSS}</style>
