@@ -262,7 +262,7 @@ export default function AyatMenu(){
           <span key={l} style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:400,
             letterSpacing:".15em",textTransform:"uppercase",color:"var(--tm)",
             padding:"5px 12px",borderRadius:"100px",border:"1px solid var(--bs)"}}>{l}</span>)}</div>
-      <div style={{position:"absolute",bottom:"20px",left:"50%",transform:"translateX(-50%)",
+      <div style={{marginTop:"32px",
         opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.6s",display:"flex",flexDirection:"column",alignItems:"center",gap:"6px"}}>
         <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".2em",
           textTransform:"uppercase",color:"var(--tm)"}}>Our Menu</p>
