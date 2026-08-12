@@ -68,7 +68,7 @@ const ALLERGENS={
   "Maklouba":["almonds"],
   "Mansaf":["almonds"],
   "Fattat Lahma":["almonds"],
-  "Lamb Ouzi Royale":["nuts"],
+  "Lamb Ouzi Royale":["almonds"],
 };
 const NUT_WORDS=["nuts","walnuts","pine nuts","almonds","pistachios","cashews","peanuts","hazelnuts"];
 export const allergyFilters=[{key:"nuts",label:"Nuts",match:a=>NUT_WORDS.includes(a)}];
