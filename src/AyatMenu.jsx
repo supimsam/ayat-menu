@@ -63,6 +63,11 @@ export const matchesDiet=(item,active)=>active.every(f=>
 // Only confirmed dishes tagged for now — full accuracy pass across all items is pending.
 const ALLERGENS={
   "Muhammarah":["walnuts"],
+  "M'sakhan":["pine nuts"],
+  "Fattat Jaj":["almonds"],
+  "Maklouba":["almonds"],
+  "Mansaf":["almonds"],
+  "Fattat Lahma":["almonds"],
   "Lamb Ouzi Royale":["nuts"],
 };
 const NUT_WORDS=["nuts","walnuts","pine nuts","almonds","pistachios","cashews","peanuts","hazelnuts"];
