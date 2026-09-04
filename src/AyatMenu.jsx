@@ -161,7 +161,7 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
           color:h?"var(--gd)":"var(--tp)",transition:"color .3s ease"}}>{item.name}</h3>
         {item.tags?.map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,letterSpacing:".08em",padding:"2px 7px",
           borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null)}</div>
-      <span style={{fontFamily:"'Bodoni Moda',serif",fontSize:"19px",fontWeight:400,fontStyle:"italic",
+      <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:600,
         color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{item.price}</span></div>
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
