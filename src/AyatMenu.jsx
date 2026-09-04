@@ -154,14 +154,11 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
       background:h?"linear-gradient(90deg,transparent,var(--gold),transparent)":"transparent",transition:"all .4s ease",borderRadius:"14px 14px 0 0"}}/>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"8px"}}>
       <div style={{display:"flex",alignItems:"center",gap:"8px",flex:1,flexWrap:"wrap"}}>
-        {item.is_spotlight&&<span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:600,letterSpacing:".15em",
-          textTransform:"uppercase",color:"rgba(255,255,255,.9)",padding:"3px 10px",borderRadius:"100px",
-          background:"var(--gm)",flexShrink:0}}>Signature</span>}
         <h3 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"21px",fontWeight:600,
           color:h?"var(--gd)":"var(--tp)",transition:"color .3s ease"}}>{item.name}</h3>
         {item.tags?.map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,letterSpacing:".08em",padding:"2px 7px",
           borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null)}</div>
-      <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:600,
+      <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
         color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{item.price}</span></div>
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
@@ -250,27 +247,15 @@ export default function AyatMenu(){
     <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
 
-    <header style={{minHeight:"46vh",display:"flex",flexDirection:"column",justifyContent:"center",
-      alignItems:"center",textAlign:"center",padding:"32px 24px 28px",position:"relative",zIndex:1}}>
+    <header style={{display:"flex",flexDirection:"column",justifyContent:"center",
+      alignItems:"center",textAlign:"center",padding:"40px 24px 24px",position:"relative",zIndex:1}}>
       <div style={{opacity:heroVis?1:0,transform:heroVis?"translateY(0) scale(1)":"translateY(20px) scale(.9)",
-        transition:"all 1.2s cubic-bezier(.16,1,.3,1) .3s",marginBottom:"14px"}}><AyatLogo width={150}/></div>
-      <div style={{opacity:heroVis?1:0,transition:"opacity 1s ease .8s",marginBottom:"16px"}}>
-        <TatreezDivider color="var(--gd)" opacity={.25}/></div>
-      <div style={{opacity:heroVis?1:0,transform:heroVis?"translateY(0)":"translateY(20px)",
-        transition:"all 1s cubic-bezier(.16,1,.3,1) 1s"}}>
-        <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(17px,3vw,22px)",fontWeight:300,
-          fontStyle:"italic",color:"var(--ts)",maxWidth:"380px",lineHeight:1.5}}>
-          Rooted in za'atar traditions, reimagined for today</p></div>
-      <div style={{opacity:heroVis?1:0,transition:"opacity 1.2s ease 1.2s",marginTop:"20px"}}>
-        <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,
-          letterSpacing:".3em",textTransform:"uppercase",color:"var(--gold)"}}>Palestinian Soul Food</p></div>
-      <div style={{opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.4s",marginTop:"28px",
-        display:"flex",gap:"8px",flexWrap:"wrap",justifyContent:"center"}}>
-        {["Bushwick"].map(l=>
-          <span key={l} style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:400,
-            letterSpacing:".15em",textTransform:"uppercase",color:"var(--tm)",
-            padding:"5px 12px",borderRadius:"100px",border:"1px solid var(--bs)"}}>{l}</span>)}</div>
-      <div style={{marginTop:"32px",
+        transition:"all 1.2s cubic-bezier(.16,1,.3,1) .3s",marginBottom:"14px"}}><AyatLogo width={95}/></div>
+      <div style={{opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.4s",marginTop:"16px",
+        display:"flex",flexDirection:"column",alignItems:"center",gap:"10px"}}>
+        <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,letterSpacing:".28em",textTransform:"uppercase",color:"var(--tm)"}}>Bushwick&nbsp;·&nbsp;Brooklyn</span>
+      </div>
+      <div style={{marginTop:"22px",
         opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.6s",display:"flex",flexDirection:"column",alignItems:"center",gap:"6px"}}>
         <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".2em",
           textTransform:"uppercase",color:"var(--tm)"}}>Our Menu</p>
