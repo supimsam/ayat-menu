@@ -335,9 +335,6 @@ export default function AyatMenu(){
           {ci<visibleCats.length-1&&<AnimatedItem delay={.2}><div style={{paddingTop:"40px"}}><TatreezDivider/></div></AnimatedItem>}
         </section>)}
         <AnimatedItem><footer style={{textAlign:"center",paddingTop:"40px",borderTop:"1px solid var(--bs)"}}>
-          <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"15px",fontWeight:300,fontStyle:"italic",
-            color:"var(--tm)",lineHeight:1.8,maxWidth:"340px",margin:"0 auto 12px"}}>
-            At our table, every guest becomes family, and every dish comes with a story to be shared.</p>
           <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".15em",
             textTransform:"uppercase",color:"var(--tm)",opacity:.5,marginTop:"20px"}}>ayatbushwick.menu</p>
         </footer></AnimatedItem></>}
