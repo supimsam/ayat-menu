@@ -248,10 +248,10 @@ export default function AyatMenu(){
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
 
     <header style={{display:"flex",flexDirection:"column",justifyContent:"center",
-      alignItems:"center",textAlign:"center",padding:"40px 24px 24px",position:"relative",zIndex:1}}>
+      alignItems:"center",textAlign:"center",padding:"26px 24px 20px",position:"relative",zIndex:1}}>
       <div style={{opacity:heroVis?1:0,transform:heroVis?"translateY(0) scale(1)":"translateY(20px) scale(.9)",
-        transition:"all 1.2s cubic-bezier(.16,1,.3,1) .3s",marginBottom:"14px"}}><AyatLogo width={95}/></div>
-      <div style={{opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.4s",marginTop:"16px",
+        transition:"all 1.2s cubic-bezier(.16,1,.3,1) .3s",marginBottom:"6px"}}><AyatLogo width={82}/></div>
+      <div style={{opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.4s",marginTop:"6px",
         display:"flex",flexDirection:"column",alignItems:"center",gap:"10px"}}>
         <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,letterSpacing:".28em",textTransform:"uppercase",color:"var(--tm)"}}>Bushwick&nbsp;·&nbsp;Brooklyn</span>
       </div>
