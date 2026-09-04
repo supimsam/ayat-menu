@@ -36,6 +36,7 @@ body{background:var(--bg);color:var(--tp);font-family:'Work Sans',sans-serif;ove
 ::-webkit-scrollbar-thumb{background:var(--gm);border-radius:2px}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+@keyframes navDock{from{transform:translateY(100%)}to{transform:translateY(0)}}
 nav div::-webkit-scrollbar{display:none}
 `;
 
@@ -186,7 +187,11 @@ export default function AyatMenu(){
   const[heroVis,setHeroVis]=useState(false);
   const[diet,setDiet]=useState([]);
   const[allergy,setAllergy]=useState([]);
-  const sR=useRef({});const nR=useRef({});const scR=useRef(null);
+  const[thumb,setThumb]=useState({left:0,width:0});// sliding underline indicator geometry
+  const[navBottom,setNavBottom]=useState(false);// dock nav to bottom while scrolling down
+  const[navH,setNavH]=useState(0);// nav height, to reserve flow space while docked
+  const sR=useRef({});const nR=useRef({});const scR=useRef(null);const lastY=useRef(0);
+  const navEl=useRef(null);const navTop=useRef(0);const navSentinel=useRef(null);// nav's resting offset in the scroll content
 
   const toggleAllergy=useCallback(k=>setAllergy(a=>a.includes(k)?a.filter(x=>x!==k):[...a,k]),[]);
   const clearAll=useCallback(()=>{setDiet([]);setAllergy([]);},[]);
@@ -227,7 +232,12 @@ export default function AyatMenu(){
     const f=()=>{const c=scR.current;if(!c||categories.length===0)return;let cur=categories[0].slug;
       const cTop=c.getBoundingClientRect().top;
       for(const cat of categories){const el=sR.current[cat.slug];if(el&&el.getBoundingClientRect().top-cTop<=140)cur=cat.slug;}
-      setActive(cur);};
+      setActive(cur);
+      const y=c.scrollTop;
+      if(y<=navTop.current+40)setNavBottom(false);// nav still resting under the hero
+      else if(y-lastY.current>4)setNavBottom(true);
+      else if(lastY.current-y>4)setNavBottom(false);
+      lastY.current=y;};
     const c=scR.current;if(c){c.addEventListener("scroll",f,{passive:true});return()=>c.removeEventListener("scroll",f);}
   },[categories]);
 
@@ -236,6 +246,11 @@ export default function AyatMenu(){
     p.scrollTo({left,behavior:"smooth"});}},[active]);
 
   useEffect(()=>{if(visibleCats.length>0&&!visibleCats.some(c=>c.slug===active))setActive(visibleCats[0].slug);},[visibleCats,active]);
+
+  useEffect(()=>{const b=nR.current[active];if(b)setThumb({left:b.offsetLeft,width:b.offsetWidth});},[active,visibleCats]);// track active label geometry for the sliding underline
+
+  useEffect(()=>{const n=navEl.current,s=navSentinel.current;if(n)setNavH(n.offsetHeight);
+    if(s)navTop.current=s.offsetTop;},[visibleCats]);// sentinel is static, so its offset stays valid while the nav sticks
 
   const goTo=useCallback(id=>{const el=sR.current[id];const c=scR.current;
     if(el&&c)c.scrollTo({top:c.scrollTop+el.getBoundingClientRect().top-c.getBoundingClientRect().top-90,behavior:"smooth"});},[]);
@@ -261,18 +276,25 @@ export default function AyatMenu(){
           opacity:.3,animation:"pulse 2s ease-in-out infinite"}}/></div>
     </header>
 
-    {categories.length>0&&<nav style={{position:"sticky",top:0,zIndex:50,padding:"0 24px",
+    {categories.length>0&&<div ref={navSentinel} style={{height:0}}/>}
+    {categories.length>0&&navBottom&&<div style={{height:navH}}/>}
+    {categories.length>0&&<nav ref={navEl} style={{position:navBottom?"fixed":"sticky",...(navBottom?{bottom:0,left:0,right:0}:{top:0}),
+      zIndex:50,padding:"0 24px",
+      animation:navBottom?"navDock .3s cubic-bezier(.4,0,.2,1)":"none",
       backdropFilter:"blur(20px) saturate(1.4)",WebkitBackdropFilter:"blur(20px) saturate(1.4)",
-      background:"rgba(245,240,230,.88)",borderBottom:"1px solid var(--bs)"}}>
-      <div style={{maxWidth:"800px",margin:"0 auto",overflowX:"auto",display:"flex",gap:"2px",
-        padding:"10px 0",scrollbarWidth:"none",msOverflowStyle:"none"}}>
-        {visibleCats.map(c=><button key={c.slug} ref={el=>nR.current[c.slug]=el} onClick={()=>goTo(c.slug)}
-          style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:active===c.slug?500:400,
-            letterSpacing:".1em",textTransform:"uppercase",color:active===c.slug?"var(--gd)":"var(--tm)",
-            background:active===c.slug?"var(--gp)":"transparent",
-            border:active===c.slug?"1px solid rgba(43,61,43,.1)":"1px solid transparent",
-            padding:"8px 16px",borderRadius:"100px",cursor:"pointer",
-            transition:"all .3s ease",whiteSpace:"nowrap",flexShrink:0}}>{c.label}</button>)}</div></nav>}
+      background:"rgba(245,240,230,.92)",
+      borderBottom:navBottom?"none":"1px solid var(--bs)",borderTop:navBottom?"1px solid var(--bs)":"none",
+      boxShadow:navBottom?"0 -4px 20px rgba(43,61,43,.08)":"none"}}>
+      <div style={{maxWidth:"800px",margin:"0 auto",overflowX:"auto",scrollbarWidth:"none",msOverflowStyle:"none"}}>
+        <div style={{position:"relative",display:"flex",gap:"4px",padding:"10px 0 0",width:"max-content",minWidth:"100%"}}>
+          <div style={{position:"absolute",bottom:0,left:thumb.left,width:thumb.width,height:"2px",
+            background:"var(--gold)",borderRadius:"2px",transition:"left .38s cubic-bezier(.5,1.2,.4,1),width .38s cubic-bezier(.5,1.2,.4,1)"}}/>
+          {visibleCats.map(c=><button key={c.slug} ref={el=>nR.current[c.slug]=el} onClick={()=>goTo(c.slug)}
+            style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:active===c.slug?600:400,
+              letterSpacing:".1em",textTransform:"uppercase",color:active===c.slug?"var(--gd)":"var(--tm)",
+              background:"transparent",border:"none",padding:"6px 14px 12px",cursor:"pointer",
+              transition:"color .3s ease,font-weight .3s ease",whiteSpace:"nowrap",flexShrink:0}}>{c.label}</button>)}
+        </div></div></nav>}
 
     <main style={{maxWidth:"800px",margin:"0 auto",padding:"48px 24px 120px",position:"relative",zIndex:1}}>
       {loading&&<LoadingSkeleton/>}
