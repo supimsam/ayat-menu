@@ -154,12 +154,15 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
       background:h?"linear-gradient(90deg,transparent,var(--gold),transparent)":"transparent",transition:"all .4s ease",borderRadius:"14px 14px 0 0"}}/>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:"8px"}}>
       <div style={{display:"flex",alignItems:"center",gap:"8px",flex:1,flexWrap:"wrap"}}>
+        {item.is_spotlight&&<span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9px",fontWeight:600,letterSpacing:".15em",
+          textTransform:"uppercase",color:"rgba(255,255,255,.9)",padding:"3px 10px",borderRadius:"100px",
+          background:"var(--gm)",flexShrink:0}}>Signature</span>}
         <h3 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"21px",fontWeight:600,
           color:h?"var(--gd)":"var(--tp)",transition:"color .3s ease"}}>{item.name}</h3>
         {item.tags?.map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,letterSpacing:".08em",padding:"2px 7px",
           borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null)}</div>
       <span style={{fontFamily:"'Bodoni Moda',serif",fontSize:"19px",fontWeight:400,fontStyle:"italic",
-        color:"var(--gold)",marginLeft:"16px",flexShrink:0}}>{item.price}</span></div>
+        color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{item.price}</span></div>
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
@@ -328,8 +331,7 @@ export default function AyatMenu(){
           <SectionHeader category={cat}/>
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
             {filteredItems[cat.slug]?.map((item,i)=>
-              (item.is_spotlight||SPOTLIGHT_IMAGES[item.name])?<SpotlightDish key={item.id} item={item} index={i}/>
-                :<MenuItem key={item.id} item={item} index={i}/>)}</div>
+              <MenuItem key={item.id} item={item} index={i}/>)}</div>
           {ci<visibleCats.length-1&&<AnimatedItem delay={.2}><div style={{paddingTop:"40px"}}><TatreezDivider/></div></AnimatedItem>}
         </section>)}
         <AnimatedItem><footer style={{textAlign:"center",paddingTop:"40px",borderTop:"1px solid var(--bs)"}}>
