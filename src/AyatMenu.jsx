@@ -37,6 +37,7 @@ body{background:var(--bg);color:var(--tp);font-family:'Work Sans',sans-serif;ove
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @keyframes navDock{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.menu-scroll{height:100vh;height:100dvh}
 nav div::-webkit-scrollbar{display:none}
 `;
 
@@ -255,7 +256,7 @@ export default function AyatMenu(){
   const goTo=useCallback(id=>{const el=sR.current[id];const c=scR.current;
     if(el&&c)c.scrollTo({top:c.scrollTop+el.getBoundingClientRect().top-c.getBoundingClientRect().top-90,behavior:"smooth"});},[]);
 
-  return <div ref={scR} style={{height:"100vh",overflowY:"auto",overflowX:"hidden",background:"var(--bg)",position:"relative"}}>
+  return <div ref={scR} className="menu-scroll" style={{overflowY:"auto",overflowX:"hidden",background:"var(--bg)",position:"relative"}}>
     <style>{CSS}</style>
     <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
@@ -279,7 +280,7 @@ export default function AyatMenu(){
     {categories.length>0&&<div ref={navSentinel} style={{height:0}}/>}
     {categories.length>0&&navBottom&&<div style={{height:navH}}/>}
     {categories.length>0&&<nav ref={navEl} style={{position:navBottom?"fixed":"sticky",...(navBottom?{bottom:0,left:0,right:0}:{top:0}),
-      zIndex:50,padding:"0 24px",
+      zIndex:50,padding:navBottom?"0 24px env(safe-area-inset-bottom)":"0 24px",
       animation:navBottom?"navDock .3s cubic-bezier(.4,0,.2,1)":"none",
       backdropFilter:"blur(20px) saturate(1.4)",WebkitBackdropFilter:"blur(20px) saturate(1.4)",
       background:"rgba(245,240,230,.92)",
