@@ -307,7 +307,7 @@ export default function CateringMenu() {
             letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gd)" }}>Catering Menu</p></div>
         <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.3s ease 1.2s", marginTop: "10px" }}>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 400,
-            letterSpacing: ".05em", color: "var(--ts)" }}>Ideal for 8+ people (approx. $400+)</p></div>
+            letterSpacing: ".05em", color: "var(--ts)" }}>Ideal for 8+ people ($300 order minimum)</p></div>
         <div style={{ marginTop: "32px", opacity: heroVis ? 1 : 0, transition: "opacity 1.5s ease 1.5s",
           display: "flex", flexDirection: "column", alignItems: "center", gap: "6px" }}>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", letterSpacing: ".2em",
