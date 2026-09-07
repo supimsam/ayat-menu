@@ -11,7 +11,10 @@ const path = window.location.pathname.replace(/\/$/, '')
 const hash = window.location.hash
 const isQR = path.endsWith('/qr') || hash === '#qr'
 const isFaq = path.endsWith('/faq') || hash === '#faq'
-const isCateringDemo = path.endsWith('/catering-demo') || hash === '#catering-demo'
+// Work-in-progress concept, reachable on the dev server only. On the live site
+// /catering-demo falls through to the main menu.
+const isCateringDemo = import.meta.env.DEV &&
+  (path.endsWith('/catering-demo') || hash === '#catering-demo')
 const isCatering = path.endsWith('/catering') || hash === '#catering'
 
 // The in-app catering menu is off for now. /catering forwards to the ayatnyc
