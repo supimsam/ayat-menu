@@ -247,9 +247,8 @@ export default function FaqPage() {
 
       <footer style={{ textAlign: "center", padding: "8px 24px 48px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: "680px", margin: "0 auto", borderTop: "1px solid var(--bs)", paddingTop: "34px" }}>
-          <AyatLogo width={110} opacity={.5} />
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", letterSpacing: ".2em",
-            textTransform: "uppercase", color: "var(--tm)", marginTop: "16px" }}>ayatbushwick.menu</p>
+            textTransform: "uppercase", color: "var(--tm)" }}>ayatbushwick.menu</p>
         </div>
       </footer>
     </div>

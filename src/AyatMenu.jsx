@@ -74,6 +74,15 @@ const ALLERGENS={
   "Mansaf":["almonds"],
   "Fattat Lahma":["almonds"],
   "Lamb Ouzi Royale":["almonds"],
+  // Desserts. Sesame is labelled but is not a nut, so it is shown without
+  // being caught by the "hide dishes with nuts" filter.
+  "Knafa":["pistachios"],
+  "Baklava":["nuts"],
+  "Baklava Sundae":["nuts"],
+  "Pistachio Dream Cake":["pistachios"],
+  "Nutella Cheesecake":["hazelnuts"],
+  "Chocolate Tahini Brownies":["sesame"],
+  "Tahini Ice Cream":["sesame"],
 };
 const NUT_WORDS=["nuts","walnuts","pine nuts","almonds","pistachios","cashews","peanuts","hazelnuts"];
 export const allergyFilters=[{key:"nuts",label:"Nuts",match:a=>NUT_WORDS.includes(a)}];
