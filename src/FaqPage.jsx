@@ -166,7 +166,7 @@ export default function FaqPage() {
       <header style={{ minHeight: "38vh", display: "flex", flexDirection: "column", justifyContent: "center",
         alignItems: "center", textAlign: "center", padding: "32px 24px 24px", position: "relative", zIndex: 1 }}>
         <div style={{ opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) scale(1)" : "translateY(20px) scale(.9)",
-          transition: "all 1.2s cubic-bezier(.16,1,.3,1) .3s", marginBottom: "20px" }}><AyatLogo width={150} /></div>
+          transition: "all 1.2s cubic-bezier(.16,1,.3,1) .3s", marginBottom: "20px" }}><AyatLogo width={82} /></div>
         <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.2s ease .8s" }}>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 600,
             letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gd)" }}>Frequently Asked Questions</p></div>
