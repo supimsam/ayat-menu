@@ -9,7 +9,7 @@ const ORDER_URL = "https://www.ayatnyc.com/menu/catering-menu/";
 
 // Catering menu data (from ayatnyc.com/menu/catering-menu). Trays feed groups; prices per size.
 // feeds:[min,max] = approx people each size serves.
-const CATERING = [
+export const CATERING = [
   { slug: "cold", label: "Cold Appetizers", note: '9" (feeds 3–5) · Medium (feeds 8–12) · Large (feeds 12–16)', items: [
     { name: "Hummus", desc: "Silky chickpea & tahini purée finished with olive oil.", tags: ["VG", "GF"], prices: [{ label: '9"', price: "$25", feeds: [3, 5] }, { label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
     { name: "Baba Ghanoush", desc: "Oven-roasted eggplant mashed with tahini, yogurt, olive oil, lemon & garlic.", tags: ["V", "GF"], prices: [{ label: '9"', price: "$25", feeds: [3, 5] }, { label: "Med", price: "$60", feeds: [8, 12] }, { label: "Lg", price: "$110", feeds: [12, 16] }] },
