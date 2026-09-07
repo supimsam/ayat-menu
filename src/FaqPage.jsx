@@ -61,8 +61,6 @@ const FAQ = [
         a: "Yes, we deliver. Please note our driver does not bring the order to your door, so you'll need to come out and meet them at their car." },
       { q: "When do I pay for a catering order?",
         a: "Catering orders are paid for upfront, before we start preparing them." },
-      { q: "Can I change or cancel a catering order?",
-        a: "", todo: "Cancellation window and any fee." },
       { q: "Do trays come with serving utensils or setup?",
         a: "We include plastic cutlery for eating, but not large serving spoons." },
       { q: "Can you work around allergies for a group?",
