@@ -3,8 +3,9 @@ import { AyatLogo, TatreezDivider, CSS, AnimatedItem } from "./AyatMenu.jsx";
 
 const PHONE = "718-766-0635";
 const PHONE_HREF = "tel:+17187660635";
-const CATERING_URL = "/catering";
-const ORDER_URL = "https://www.ayatnyc.com/menu/catering-menu/";
+// Catering lives on ayatnyc.com for now, so every catering link points off-site.
+const CATERING_URL = "https://www.ayatnyc.com/menu/catering-menu/";
+const ORDER_URL = CATERING_URL;
 
 // FAQ content. `todo: true` marks an answer Sammi still needs to supply — it renders
 // a visible "needs your answer" flag so a placeholder can never ship as if it were real.
@@ -48,15 +49,12 @@ const FAQ = [
     items: [
       { q: "How many people does catering serve?",
         a: "Catering is built for groups of 8 or more. Trays come in three sizes: a 9\" tray feeds about 3–5 people, a medium feeds about 8–12, and a large feeds about 12–16.",
-        cta: { label: "See the catering menu", href: CATERING_URL } },
+        cta: { label: "See the catering menu", href: CATERING_URL, external: true } },
       { q: "Is there a minimum for catering orders?",
         a: "Yes. Catering orders have a $300 minimum. Beyond that, the total depends on how many trays you order and which dishes you choose." },
       { q: "How do I place a catering order?",
-        a: "Browse the catering menu to plan what you want, then place the actual order through ayatnyc.com.",
+        a: "Our full catering menu and ordering are on ayatnyc.com.",
         cta: { label: "Place a catering order", href: ORDER_URL, external: true } },
-      { q: "Can I plan an order before I commit to anything?",
-        a: "Yes. On the catering menu, turn on \"Create a mock order\" and tap tray sizes to build a sample order. It shows a running estimate and roughly how many people it feeds. Nothing is charged and no order is placed.",
-        cta: { label: "Try it on the catering menu", href: CATERING_URL } },
       { q: "How far in advance should I order?",
         a: "Catering orders need at least 4 hours notice." },
       { q: "Do you deliver catering orders?",
@@ -237,7 +235,7 @@ export default function FaqPage() {
                 style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 600,
                   letterSpacing: ".1em", textTransform: "uppercase", color: "#F5F0E6", background: "var(--gd)",
                   padding: "14px 24px", borderRadius: "100px", textDecoration: "none" }}>Call {PHONE}</a>
-              <a href={CATERING_URL}
+              <a href={CATERING_URL} target="_blank" rel="noopener noreferrer"
                 style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 600,
                   letterSpacing: ".1em", textTransform: "uppercase", color: "var(--gd)", background: "transparent",
                   border: "1px solid var(--bs)", padding: "14px 24px", borderRadius: "100px",
