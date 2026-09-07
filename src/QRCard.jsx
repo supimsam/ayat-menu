@@ -80,7 +80,7 @@ export default function QRCard() {
         </div>
         <p className="qr-hint">
           Download the 5×7 image, upload it as a photo print at Walgreens (or any photo counter),
-          then fold along the dashed line so it stands as a small table tent — both sides show the menu QR.
+          then fold along the dashed line so it stands as a small table tent. Both sides show the menu QR.
         </p>
       </div>
     </div>

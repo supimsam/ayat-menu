@@ -170,7 +170,7 @@ function OrderPlanner({ order, changeQty, clearOrder }) {
             <div>
               <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "22px", fontWeight: 600, color: "var(--gd)" }}>Your feast</p>
               <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", color: "var(--tm)", marginTop: "2px" }}>
-                Estimated plan — final orders are placed on ayatnyc.com</p>
+                Estimated plan. Final orders are placed on ayatnyc.com</p>
             </div>
             <button onClick={() => setOpen(false)} aria-label="Close" style={{ background: "none", border: "none",
               cursor: "pointer", fontSize: "22px", color: "var(--tm)", lineHeight: 1, padding: "4px" }}>×</button>
@@ -304,12 +304,7 @@ export default function CateringMenu() {
         alignItems: "center", textAlign: "center", padding: "32px 24px 28px", position: "relative", zIndex: 1 }}>
         <div style={{ opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0) scale(1)" : "translateY(20px) scale(.9)",
           transition: "all 1.2s cubic-bezier(.16,1,.3,1) .3s", marginBottom: "18px" }}><AyatLogo width={150} /></div>
-        <div style={{ opacity: heroVis ? 1 : 0, transform: heroVis ? "translateY(0)" : "translateY(20px)",
-          transition: "all 1s cubic-bezier(.16,1,.3,1) .8s" }}>
-          <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "clamp(17px,3vw,22px)", fontWeight: 300,
-            fontStyle: "italic", color: "var(--ts)", maxWidth: "400px", lineHeight: 1.5 }}>
-            Feasts made to share — trays & platters for every gathering</p></div>
-        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.2s ease 1s", marginTop: "20px" }}>
+        <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.2s ease 1s" }}>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 600,
             letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gd)" }}>Catering Menu</p></div>
         <div style={{ opacity: heroVis ? 1 : 0, transition: "opacity 1.3s ease 1.2s", marginTop: "10px" }}>
@@ -354,7 +349,7 @@ export default function CateringMenu() {
             Create a mock order</button>
           {mockMode && <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontSize: "15px",
             color: "var(--ts)", textAlign: "center", maxWidth: "420px", lineHeight: 1.5 }}>
-            Tap any tray size to build a sample order & see how many it feeds. This is just for planning — place your
+            Tap any tray size to build a sample order & see how many it feeds. This is just for planning. Place your
             actual order on ayatnyc.com.</p>}
         </div></AnimatedItem>
         <AnimatedItem><div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
@@ -401,7 +396,7 @@ export default function CateringMenu() {
           <div style={{ marginBottom: "16px", opacity: .5 }}><AyatLogo width={130} /></div>
           <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "15px", fontWeight: 300, fontStyle: "italic",
             color: "var(--tm)", lineHeight: 1.8, maxWidth: "360px", margin: "0 auto 12px" }}>
-            From our kitchen to your celebration — let us cater your next gathering.</p>
+            From our kitchen to your celebration, let us cater your next gathering.</p>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", letterSpacing: ".15em",
             textTransform: "uppercase", color: "var(--tm)", opacity: .5, marginTop: "16px" }}>ayatbushwick.menu</p>
         </footer></AnimatedItem>
