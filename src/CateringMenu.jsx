@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import {
   AyatLogo, TatreezDivider, CSS, tagCfg,
-  dietFilters, matchesDiet, allergyFilters, matchesAllergy,
+  dietFilters, matchesDiet, matchesAllergy,
   itemAllergens, AllergenNote, AnimatedItem, SectionHeader,
 } from "./AyatMenu.jsx";
 
@@ -249,9 +249,7 @@ export default function CateringMenu() {
   const [mockMode, setMockMode] = useState(false);
   const sR = useRef({}); const nR = useRef({}); const scR = useRef(null);
 
-  const toggleDiet = useCallback(k => setDiet(d => d.includes(k) ? d.filter(x => x !== k) : [...d, k]), []);
   const toggleAllergy = useCallback(k => setAllergy(a => a.includes(k) ? a.filter(x => x !== k) : [...a, k]), []);
-  const anyFilter = diet.length > 0 || allergy.length > 0;
   const clearAll = useCallback(() => { setDiet([]); setAllergy([]); }, []);
 
   const addToOrder = useCallback((item, p) => {
@@ -352,28 +350,26 @@ export default function CateringMenu() {
             Tap any tray size to build a sample order & see how many it feeds. This is just for planning. Place your
             actual order on ayatnyc.com.</p>}
         </div></AnimatedItem>
-        <AnimatedItem><div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-          flexWrap: "wrap", marginBottom: "48px" }}>
-          <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", fontWeight: 500, letterSpacing: ".12em",
-            textTransform: "uppercase", color: "var(--tm)", flexShrink: 0 }}>Dietary</span>
-          {dietFilters.map(f => { const on = diet.includes(f.key); return <button key={f.key} onClick={() => toggleDiet(f.key)}
-            style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: on ? 600 : 400, letterSpacing: ".04em",
-              color: on ? "var(--gd)" : "var(--tm)", background: on ? "var(--gp)" : "transparent",
-              border: `1px solid ${on ? "rgba(43,61,43,.18)" : "var(--bs)"}`, padding: "6px 14px", borderRadius: "100px",
-              cursor: "pointer", transition: "all .3s ease", whiteSpace: "nowrap" }}>{on ? "✓ " : ""}{f.label}</button>; })}
-          <span style={{ width: "1px", height: "18px", background: "var(--bs)", flexShrink: 0 }} />
-          <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", fontWeight: 500, letterSpacing: ".12em",
-            textTransform: "uppercase", color: "var(--tm)", flexShrink: 0 }}>Allergies</span>
-          {allergyFilters.map(f => { const on = allergy.includes(f.key); return <button key={f.key} onClick={() => toggleAllergy(f.key)}
-            style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: on ? 600 : 400, letterSpacing: ".04em",
-              color: on ? "var(--terra)" : "var(--tm)", background: on ? "rgba(184,92,56,.08)" : "transparent",
-              border: `1px solid ${on ? "rgba(184,92,56,.28)" : "var(--bs)"}`, padding: "6px 14px", borderRadius: "100px",
-              cursor: "pointer", transition: "all .3s ease", whiteSpace: "nowrap" }}>{on ? "✕ " : ""}{f.label}</button>; })}
-          {anyFilter && <button onClick={clearAll} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px",
-            fontWeight: 400, color: "var(--terra)", background: "transparent", border: "none", padding: "6px 8px",
-            cursor: "pointer", letterSpacing: ".04em" }}>Clear</button>}
-          {anyFilter && <span style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", color: "var(--tm)",
-            flexShrink: 0 }}>· {totalShown} {totalShown === 1 ? "item" : "items"}</span>}
+        {/* Same segmented control + nut toggle as the main menu, so both pages filter alike. */}
+        <AnimatedItem><div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", marginBottom: "48px" }}>
+          {(() => { const segs = [{ k: "", l: "All" }, ...dietFilters.map(f => ({ k: f.key, l: f.label === "Gluten-Free" ? "GF" : f.label }))];
+            const cur = diet[0] || ""; const idx = Math.max(0, segs.findIndex(s => s.k === cur)); const n = segs.length;
+            const nutOn = allergy.includes("nuts");
+            return <>
+              <div style={{ position: "relative", display: "flex", background: "var(--gp)", border: "1px solid var(--bs)", borderRadius: "11px", padding: "3px", width: "320px", maxWidth: "90vw" }}>
+                <div style={{ position: "absolute", top: "3px", bottom: "3px", width: `calc((100% - 6px)/${n})`, left: `calc(3px + ${idx}*((100% - 6px)/${n}))`,
+                  background: "var(--gd)", borderRadius: "8px", transition: "left .32s cubic-bezier(.5,1.4,.4,1)", boxShadow: "0 1px 3px rgba(43,61,43,.25)" }} />
+                {segs.map(s => { const on = s.k === cur; return <button key={s.k || "all"} onClick={() => setDiet(s.k ? [s.k] : [])}
+                  style={{ flex: 1, position: "relative", zIndex: 1, fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: on ? 600 : 500,
+                    color: on ? "#fff" : "var(--ts)", background: "transparent", border: "none", padding: "7px 4px", borderRadius: "8px", cursor: "pointer",
+                    transition: "color .25s ease", whiteSpace: "nowrap" }}>{s.l}</button>; })}
+              </div>
+              <button onClick={() => toggleAllergy("nuts")} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: nutOn ? 600 : 500,
+                letterSpacing: ".03em", color: nutOn ? "#fff" : "var(--terra)", background: nutOn ? "var(--terra)" : "transparent",
+                border: `1px solid ${nutOn ? "var(--terra)" : "rgba(184,92,56,.4)"}`, padding: "6px 14px", borderRadius: "100px", cursor: "pointer",
+                display: "inline-flex", alignItems: "center", gap: "6px", transition: "all .25s ease" }}>
+                <span style={{ fontSize: "12px" }}>{nutOn ? "✕" : "○"}</span>{nutOn ? "Hiding dishes with nuts" : "Hide dishes with nuts"}</button>
+            </>; })()}
         </div></AnimatedItem>
 
         {totalShown === 0 && <div style={{ textAlign: "center", padding: "60px 20px" }}>
