@@ -66,9 +66,9 @@ export const matchesDiet=(item,active)=>active.every(f=>
 const ALLERGENS={
   "Muhammarah":["walnuts"],
   "M'sakhan":["pine nuts"],
-  "Kibbeh":["almonds"],
-  // Hot Appetizers Mix contains kibbeh, so it carries the same almond allergen.
-  "Hot Appetizers Mix":["almonds"],
+  "Kibbeh":["walnuts"],
+  // Hot Appetizers Mix contains kibbeh, so it carries the same walnut allergen.
+  "Hot Appetizers Mix":["walnuts"],
   "Fattat Jaj":["almonds"],
   "Maklouba":["almonds"],
   "Mansaf":["almonds"],
