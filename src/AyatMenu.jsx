@@ -36,7 +36,6 @@ body{background:var(--bg);color:var(--tp);font-family:'Work Sans',sans-serif;ove
 ::-webkit-scrollbar-thumb{background:var(--gm);border-radius:2px}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-@keyframes navDock{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .menu-scroll{height:100vh;height:100dvh}
 nav div::-webkit-scrollbar{display:none}
 `;
@@ -201,8 +200,15 @@ function mergeSizes(items){
   return out;
 }
 
+// 28.8 should read as 28.80; whole numbers stay bare, matching the rest of the menu.
+const fmtPrice=p=>{const n=Number(p);
+  return Number.isFinite(n)?(Number.isInteger(n)?String(n):n.toFixed(2)):p;};
+
 function MenuItem({item,index}){const[h,setH]=useState(false);
   const portion=PORTIONS[item.name];
+  const tagEls=(item.tags||[]).map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,
+    letterSpacing:".08em",padding:"2px 7px",borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,
+    color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null).filter(Boolean);
   return <AnimatedItem delay={index*.07}><div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{
     padding:"22px 26px",background:h?"var(--card-h)":"var(--card)",borderRadius:"14px",
     border:`1px solid ${h?"rgba(184,134,11,.18)":"var(--bs)"}`,transition:"all .4s cubic-bezier(.16,1,.3,1)",
@@ -213,8 +219,8 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
       <div style={{display:"flex",alignItems:"center",gap:"8px",flex:1,flexWrap:"wrap"}}>
         <h3 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"21px",fontWeight:600,
           color:h?"var(--gd)":"var(--tp)",transition:"color .3s ease"}}>{item.name}</h3>
-        {item.tags?.map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,letterSpacing:".08em",padding:"2px 7px",
-          borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null)}</div>
+        {/* Size prices take the room tags would need, so those cards put tags on their own line. */}
+        {!item.variants&&tagEls}</div>
       {item.variants
         ? <span style={{display:"flex",gap:"14px",marginLeft:"16px",flexShrink:0,alignItems:"baseline"}}>
             {item.variants.map(v=>
@@ -222,11 +228,13 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
                 <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9.5px",fontWeight:600,
                   letterSpacing:".1em",textTransform:"uppercase",color:"var(--tm)"}}>{v.size==="Small"?"Sm":"Lg"}</span>
                 <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
-                  color:"var(--tp)"}}>{v.price}</span>
+                  color:"var(--tp)"}}>{fmtPrice(v.price)}</span>
               </span>)}
           </span>
         : <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
-            color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{item.price}</span>}</div>
+            color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{fmtPrice(item.price)}</span>}</div>
+    {item.variants&&tagEls.length>0&&<div style={{display:"flex",gap:"6px",flexWrap:"wrap",
+      marginTop:"-4px",marginBottom:"7px"}}>{tagEls}</div>}
     {portion&&<p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11.5px",fontWeight:500,
       letterSpacing:".02em",color:"var(--tm)",marginTop:"-4px",marginBottom:"7px"}}>{portion}</p>}
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
@@ -272,10 +280,7 @@ export default function AyatMenu(){
   const[diet,setDiet]=useState([]);
   const[allergy,setAllergy]=useState([]);
   const[thumb,setThumb]=useState({left:0,width:0});// sliding underline indicator geometry
-  const[navBottom,setNavBottom]=useState(false);// dock nav to bottom while scrolling down
-  const[navH,setNavH]=useState(0);// nav height, to reserve flow space while docked
-  const sR=useRef({});const nR=useRef({});const scR=useRef(null);const lastY=useRef(0);
-  const navEl=useRef(null);const navTop=useRef(0);const navSentinel=useRef(null);// nav's resting offset in the scroll content
+  const sR=useRef({});const nR=useRef({});const scR=useRef(null);
 
   const toggleAllergy=useCallback(k=>setAllergy(a=>a.includes(k)?a.filter(x=>x!==k):[...a,k]),[]);
   const clearAll=useCallback(()=>{setDiet([]);setAllergy([]);},[]);
@@ -316,12 +321,7 @@ export default function AyatMenu(){
     const f=()=>{const c=scR.current;if(!c||categories.length===0)return;let cur=categories[0].slug;
       const cTop=c.getBoundingClientRect().top;
       for(const cat of categories){const el=sR.current[cat.slug];if(el&&el.getBoundingClientRect().top-cTop<=140)cur=cat.slug;}
-      setActive(cur);
-      const y=c.scrollTop;
-      if(y<=navTop.current+40)setNavBottom(false);// nav still resting under the hero
-      else if(y-lastY.current>4)setNavBottom(true);
-      else if(lastY.current-y>4)setNavBottom(false);
-      lastY.current=y;};
+      setActive(cur);};
     const c=scR.current;if(c){c.addEventListener("scroll",f,{passive:true});return()=>c.removeEventListener("scroll",f);}
   },[categories]);
 
@@ -332,9 +332,6 @@ export default function AyatMenu(){
   useEffect(()=>{if(visibleCats.length>0&&!visibleCats.some(c=>c.slug===active))setActive(visibleCats[0].slug);},[visibleCats,active]);
 
   useEffect(()=>{const b=nR.current[active];if(b)setThumb({left:b.offsetLeft,width:b.offsetWidth});},[active,visibleCats]);// track active label geometry for the sliding underline
-
-  useEffect(()=>{const n=navEl.current,s=navSentinel.current;if(n)setNavH(n.offsetHeight);
-    if(s)navTop.current=s.offsetTop;},[visibleCats]);// sentinel is static, so its offset stays valid while the nav sticks
 
   const goTo=useCallback(id=>{const el=sR.current[id];const c=scR.current;
     if(el&&c)c.scrollTo({top:c.scrollTop+el.getBoundingClientRect().top-c.getBoundingClientRect().top-90,behavior:"smooth"});},[]);
@@ -363,15 +360,9 @@ export default function AyatMenu(){
           opacity:.3,animation:"pulse 2s ease-in-out infinite"}}/></div>
     </header>
 
-    {categories.length>0&&<div ref={navSentinel} style={{height:0}}/>}
-    {categories.length>0&&navBottom&&<div style={{height:navH}}/>}
-    {categories.length>0&&<nav ref={navEl} style={{position:navBottom?"fixed":"sticky",...(navBottom?{bottom:0,left:0,right:0}:{top:0}),
-      zIndex:50,padding:navBottom?"0 24px env(safe-area-inset-bottom)":"0 24px",
-      animation:navBottom?"navDock .3s cubic-bezier(.4,0,.2,1)":"none",
+    {categories.length>0&&<nav style={{position:"sticky",top:0,zIndex:50,padding:"0 24px",
       backdropFilter:"blur(20px) saturate(1.4)",WebkitBackdropFilter:"blur(20px) saturate(1.4)",
-      background:"rgba(245,240,230,.92)",
-      borderBottom:navBottom?"none":"1px solid var(--bs)",borderTop:navBottom?"1px solid var(--bs)":"none",
-      boxShadow:navBottom?"0 -4px 20px rgba(43,61,43,.08)":"none"}}>
+      background:"rgba(245,240,230,.92)",borderBottom:"1px solid var(--bs)"}}>
       <div style={{maxWidth:"800px",margin:"0 auto",overflowX:"auto",scrollbarWidth:"none",msOverflowStyle:"none"}}>
         <div style={{position:"relative",display:"flex",gap:"4px",padding:"10px 0 0",width:"max-content",minWidth:"100%"}}>
           <div style={{position:"absolute",bottom:0,left:thumb.left,width:thumb.width,height:"2px",
