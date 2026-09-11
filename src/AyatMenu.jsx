@@ -160,17 +160,6 @@ export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.leng
     color:dark?"#F0C8A0":"var(--terra)",border:`1px solid ${dark?"rgba(240,200,160,.35)":"rgba(184,92,56,.28)"}`,
     background:dark?"rgba(184,92,56,.18)":"rgba(184,92,56,.06)"}}>⚠ {txt}</span>;}
 
-// Gluten-free dishes that are fried in oil shared with battered items. The GF tag alone
-// would imply they are safe for coeliacs, so each one carries a cross-contamination note.
-const SHARED_FRYER=new Set(["Falafel","Zahir","Beitenjan","Fried Halloumi"]);
-
-export function FryerNote({dark}){
-  return <span style={{display:"inline-flex",alignItems:"center",gap:"5px",fontFamily:"'Work Sans',sans-serif",
-    fontSize:"10px",fontWeight:500,letterSpacing:".05em",padding:"3px 10px",borderRadius:"20px",
-    color:dark?"#F0C8A0":"var(--terra)",border:`1px solid ${dark?"rgba(240,200,160,.35)":"rgba(184,92,56,.28)"}`,
-    background:dark?"rgba(184,92,56,.18)":"rgba(184,92,56,.06)"}}>
-    ⚠ Fried in shared oil, so gluten cross-contamination is possible</span>;}
-
 // How many pieces a dish comes with, keyed by dish name. Merged size items are keyed
 // by their base name (for example "Chicken Kebab", not "Chicken Kebab (Small)").
 const PORTIONS={
@@ -269,11 +258,7 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
           letterSpacing:".02em",color:"var(--tm)"}}>{portion}</span>}
       </div>}
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
-    {(itemAllergens(item).length>0||SHARED_FRYER.has(item.name))&&
-      <div style={{marginTop:"10px",display:"flex",flexWrap:"wrap",gap:"6px"}}>
-        {itemAllergens(item).length>0&&<AllergenNote item={item}/>}
-        {SHARED_FRYER.has(item.name)&&<FryerNote/>}
-      </div>}
+    {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
 
 // Notes shown under a section heading, keyed by category slug. Kept in code because
