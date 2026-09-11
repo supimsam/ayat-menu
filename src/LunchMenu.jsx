@@ -43,7 +43,9 @@ const LUNCH = [
 
 // Grouped into explicit rows so the segments divide each row evenly, the way the
 // dietary segmented control on the main menu does.
-const SIDES = [["Hummus", "Baba ganoush", "Muhammara"], ["Labneh", "Mixed greens salad"]];
+// null is an empty cell, so the second row of sides lines up under the columns
+// above it and sits to the left rather than spreading across the full width.
+const SIDES = [["Hummus", "Baba ganoush", "Muhammara"], ["Labneh", "Mixed greens salad", null]];
 const DRINKS = [["Lemonade", "Hibiscus", "Ginger ale"]];
 
 // Nothing is selectable here, so every option renders in the unselected state.
@@ -56,11 +58,11 @@ function ChoiceRow({ label, rows }) {
         padding: "3px", display: "flex", flexDirection: "column", gap: "2px" }}>
         {rows.map((row, ri) => (
           <div key={ri} style={{ display: "flex", gap: "2px" }}>
-            {row.map(i => (
-              <span key={i} style={{ flex: 1, textAlign: "center", fontFamily: "'Work Sans',sans-serif",
-                fontSize: "12px", fontWeight: 500, color: "var(--ts)", padding: "7px 4px",
-                borderRadius: "8px", whiteSpace: "nowrap" }}>{i}</span>
-            ))}
+            {row.map((i, ci) => i === null
+              ? <span key={"gap" + ci} style={{ flex: 1 }} aria-hidden="true" />
+              : <span key={i} style={{ flex: 1, textAlign: "center", fontFamily: "'Work Sans',sans-serif",
+                  fontSize: "11.5px", fontWeight: 500, color: "var(--ts)", padding: "7px 2px",
+                  borderRadius: "8px", whiteSpace: "nowrap" }}>{i}</span>)}
           </div>
         ))}
       </div>
