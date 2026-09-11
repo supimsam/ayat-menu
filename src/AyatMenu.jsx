@@ -176,12 +176,13 @@ export const YOGURT_MARINADE=new Set([
   "Pizzawarma",
 ]);
 
-export function MarinadeNote({dark}){
-  return <span style={{display:"inline-flex",alignItems:"center",gap:"5px",fontFamily:"'Work Sans',sans-serif",
-    fontSize:"10px",fontWeight:500,letterSpacing:".05em",padding:"3px 10px",borderRadius:"20px",
-    color:dark?"rgba(245,240,230,.75)":"var(--gm)",
-    border:`1px solid ${dark?"rgba(245,240,230,.25)":"rgba(61,90,61,.25)"}`,
-    background:dark?"rgba(245,240,230,.1)":"rgba(61,90,61,.05)"}}>Marinated in yogurt</span>;}
+// Reads as part of the description rather than a separate badge. Descriptions are
+// inconsistent about trailing periods, so add one when it is missing.
+export function withMarinade(desc,name){
+  if(!YOGURT_MARINADE.has(name))return desc;
+  const d=(desc||"").trim();
+  if(!d)return "Also marinated in yogurt.";
+  return d+(/[.!?]$/.test(d)?" ":". ")+"Also marinated in yogurt.";}
 
 // How many pieces a dish comes with, keyed by dish name. Merged size items are keyed
 // by their base name (for example "Chicken Kebab", not "Chicken Kebab (Small)").
@@ -280,12 +281,8 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
         {portion&&<span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11.5px",fontWeight:500,
           letterSpacing:".02em",color:"var(--tm)"}}>{portion}</span>}
       </div>}
-    <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
-    {(itemAllergens(item).length>0||YOGURT_MARINADE.has(item.name))&&
-      <div style={{marginTop:"10px",display:"flex",flexWrap:"wrap",gap:"6px"}}>
-        {itemAllergens(item).length>0&&<AllergenNote item={item}/>}
-        {YOGURT_MARINADE.has(item.name)&&<MarinadeNote/>}
-      </div>}
+    <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{withMarinade(item.description,item.name)}</p>
+    {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
 
 // Notes shown under a section heading, keyed by category slug. Kept in code because
