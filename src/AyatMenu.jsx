@@ -180,6 +180,13 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
 
 // Notes shown under a section heading, keyed by category slug. Kept in code because
 // the categories table has no note column.
+// Shared style for the pills in the top-right corner of the menu header.
+const cornerPill={display:"flex",alignItems:"center",gap:"6px",fontFamily:"'Work Sans',sans-serif",
+  fontSize:"11px",fontWeight:500,letterSpacing:".1em",textTransform:"uppercase",color:"var(--gd)",
+  textDecoration:"none",padding:"9px 16px",borderRadius:"100px",border:"1px solid var(--bs)",
+  background:"rgba(245,240,230,.7)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",
+  whiteSpace:"nowrap"};
+
 const CATEGORY_NOTES={
   lunch:"Monday to Friday, 11am to 3pm. Every platter comes with your choice of two sides (hummus, baba ganoush, muhammara, labneh or mixed greens salad) and a drink (lemonade, hibiscus or ginger ale).",
 };
@@ -282,12 +289,12 @@ export default function AyatMenu(){
     <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
 
-    <a href="/faq" style={{position:"absolute",top:"20px",right:"20px",zIndex:10,display:"flex",
-      alignItems:"center",gap:"6px",fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,
-      letterSpacing:".1em",textTransform:"uppercase",color:"var(--gd)",textDecoration:"none",
-      padding:"9px 16px",borderRadius:"100px",border:"1px solid var(--bs)",
-      background:"rgba(245,240,230,.7)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)"}}>
-      FAQ <span style={{fontSize:"13px",lineHeight:1}}>→</span></a>
+    <div style={{position:"absolute",top:"20px",right:"20px",zIndex:10,display:"flex",
+      flexDirection:"column",alignItems:"flex-end",gap:"7px"}}>
+      <a href="/faq" style={cornerPill}>FAQ <span style={{fontSize:"13px",lineHeight:1}}>→</span></a>
+      <a href="/lunch" style={{...cornerPill,fontSize:"10px",letterSpacing:".04em",padding:"8px 11px",gap:"5px"}}>
+        Lunch Menu <span style={{fontSize:"12px",lineHeight:1}}>→</span></a>
+    </div>
 
     <header style={{display:"flex",flexDirection:"column",justifyContent:"center",
       alignItems:"center",textAlign:"center",padding:"26px 24px 20px",position:"relative",zIndex:1}}>
