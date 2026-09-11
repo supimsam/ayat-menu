@@ -128,22 +128,9 @@ export default function LunchMenu() {
           </section>
         ))}
 
-        <AnimatedItem>
-          <div style={{ textAlign: "center", padding: "4px 0 40px" }}>
-            <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", fontWeight: 600,
-              letterSpacing: ".3em", textTransform: "uppercase", color: "var(--gd)" }}>BYOB</p>
-            <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11px", color: "var(--tm)",
-              lineHeight: 1.8, marginTop: "10px" }}>
-              Allergies? Let us know before ordering.<br />
-              20% service charge on parties of 5 or more. No corkage fee.</p>
-            <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "15px", fontStyle: "italic",
-              color: "var(--ts)", marginTop: "12px" }}>
-              Pita bread is always free. Breaking bread is the whole idea.</p>
-          </div>
-        </AnimatedItem>
       </main>
 
-      <footer style={{ textAlign: "center", padding: "0 24px 48px", position: "relative", zIndex: 1 }}>
+      <footer style={{ textAlign: "center", padding: "24px 24px 48px", position: "relative", zIndex: 1 }}>
         <div style={{ maxWidth: "620px", margin: "0 auto", borderTop: "1px solid var(--bs)", paddingTop: "28px" }}>
           <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", letterSpacing: ".2em",
             textTransform: "uppercase", color: "var(--tm)" }}>ayatbushwick.menu</p>
