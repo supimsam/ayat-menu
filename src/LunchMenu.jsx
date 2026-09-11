@@ -41,8 +41,26 @@ const LUNCH = [
   },
 ];
 
-const SIDES = "hummus, baba ganoush, muhammara, labneh or mixed greens salad";
-const DRINKS = "lemonade, hibiscus or ginger ale";
+const SIDES = ["Hummus", "Baba ganoush", "Muhammara", "Labneh", "Mixed greens salad"];
+const DRINKS = ["Lemonade", "Hibiscus", "Ginger ale"];
+
+// Reads like the dietary segmented control on the main menu. Nothing is selectable
+// here, so every option renders in the unselected state.
+function ChoiceRow({ label, items }) {
+  return (
+    <div>
+      <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: ".14em",
+        textTransform: "uppercase", color: "var(--tm)", textAlign: "center", marginBottom: "8px" }}>{label}</p>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "2px",
+        background: "var(--gp)", border: "1px solid var(--bs)", borderRadius: "11px", padding: "3px" }}>
+        {items.map(i => (
+          <span key={i} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 500,
+            color: "var(--ts)", padding: "7px 12px", borderRadius: "8px", whiteSpace: "nowrap" }}>{i}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function LunchMenu() {
   const [heroVis, setHeroVis] = useState(false);
@@ -79,13 +97,12 @@ export default function LunchMenu() {
 
       <div style={{ maxWidth: "620px", margin: "0 auto", padding: "14px 24px 0", position: "relative", zIndex: 1 }}>
         <div style={{ background: "var(--card)", border: "1px solid var(--bs)", borderRadius: "16px",
-          padding: "17px 20px", textAlign: "center" }}>
+          padding: "18px 16px", display: "flex", flexDirection: "column", gap: "16px" }}>
           <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "16px", fontStyle: "italic",
-            color: "var(--ts)", lineHeight: 1.6 }}>
+            color: "var(--ts)", lineHeight: 1.6, textAlign: "center" }}>
             Every platter comes with your choice of two sides, plus a drink.</p>
-          <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "11.5px", color: "var(--tm)",
-            lineHeight: 1.65, marginTop: "9px" }}>
-            Sides: {SIDES}<br />Drinks: {DRINKS}</p>
+          <ChoiceRow label="Pick two sides" items={SIDES} />
+          <ChoiceRow label="Pick a drink" items={DRINKS} />
         </div>
       </div>
 
