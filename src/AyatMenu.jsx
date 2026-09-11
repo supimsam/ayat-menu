@@ -159,7 +159,48 @@ export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.leng
     color:dark?"#F0C8A0":"var(--terra)",border:`1px solid ${dark?"rgba(240,200,160,.35)":"rgba(184,92,56,.28)"}`,
     background:dark?"rgba(184,92,56,.18)":"rgba(184,92,56,.06)"}}>⚠ {txt}</span>;}
 
+// How many pieces a dish comes with, keyed by dish name. Merged size items are keyed
+// by their base name (for example "Chicken Kebab", not "Chicken Kebab (Small)").
+const PORTIONS={
+  "Shrimp Kebab":"6 pieces",
+  "Kousa Mahshi":"2 pieces",
+  "Wara Dawali":"8 pieces",
+  "Kibbeh":"3 pieces",
+  "Shatta-Fired Wings":"6 pieces",
+  "Wood-Fired Wings":"6 pieces",
+  "Fried Halloumi":"4 pieces",
+  "Cigar Rolls with Cheese":"3 pieces",
+  "Cigar Rolls with Ground Beef":"3 pieces",
+  "Cigar Rolls with Spinach & Cheese":"3 pieces",
+  "Mixed Grill":"3 kebab pieces, 2 kefta and 1 lamb chop",
+  "Lamb Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
+  "Chicken Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
+  "Spicy Chicken Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
+  "Beef Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
+  "Kefta":"Small is 2 pieces, large is 4 pieces.",
+  "Spicy Kefta":"Small is 2 pieces, large is 4 pieces.",
+  "Vegan Kefta":"Small is 2 pieces, large is 4 pieces.",
+};
+
+// "Chicken Kebab (Small)" and "Chicken Kebab (Large)" are one dish with two sizes, so
+// they collapse into a single card showing both prices instead of two near-identical rows.
+const SIZE_RE=/^(.*) \((Small|Large)\)$/;
+function mergeSizes(items){
+  const out=[];const seen={};
+  for(const it of items){
+    const m=it.name.match(SIZE_RE);
+    if(!m){out.push(it);continue;}
+    const[,base,size]=m;
+    if(seen[base]===undefined){seen[base]=out.length;out.push({...it,id:"size-"+base,name:base,variants:[]});}
+    out[seen[base]].variants.push({size,price:it.price});
+  }
+  for(const it of out)
+    if(it.variants)it.variants.sort((a,b)=>a.size==="Small"?-1:b.size==="Small"?1:0);
+  return out;
+}
+
 function MenuItem({item,index}){const[h,setH]=useState(false);
+  const portion=PORTIONS[item.name];
   return <AnimatedItem delay={index*.07}><div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{
     padding:"22px 26px",background:h?"var(--card-h)":"var(--card)",borderRadius:"14px",
     border:`1px solid ${h?"rgba(184,134,11,.18)":"var(--bs)"}`,transition:"all .4s cubic-bezier(.16,1,.3,1)",
@@ -172,8 +213,20 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
           color:h?"var(--gd)":"var(--tp)",transition:"color .3s ease"}}>{item.name}</h3>
         {item.tags?.map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,letterSpacing:".08em",padding:"2px 7px",
           borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null)}</div>
-      <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
-        color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{item.price}</span></div>
+      {item.variants
+        ? <span style={{display:"flex",gap:"14px",marginLeft:"16px",flexShrink:0,alignItems:"baseline"}}>
+            {item.variants.map(v=>
+              <span key={v.size} style={{display:"flex",alignItems:"baseline",gap:"5px"}}>
+                <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"9.5px",fontWeight:600,
+                  letterSpacing:".1em",textTransform:"uppercase",color:"var(--tm)"}}>{v.size==="Small"?"Sm":"Lg"}</span>
+                <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
+                  color:"var(--tp)"}}>{v.price}</span>
+              </span>)}
+          </span>
+        : <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
+            color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{item.price}</span>}</div>
+    {portion&&<p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11.5px",fontWeight:500,
+      letterSpacing:".02em",color:"var(--tm)",marginTop:"-4px",marginBottom:"7px"}}>{portion}</p>}
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
@@ -369,7 +422,7 @@ export default function AyatMenu(){
         {visibleCats.map((cat,ci)=><section key={cat.slug} ref={el=>sR.current[cat.slug]=el} style={{marginBottom:"64px"}}>
           <SectionHeader category={cat}/>
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-            {filteredItems[cat.slug]?.map((item,i)=>
+            {mergeSizes(filteredItems[cat.slug]||[]).map((item,i)=>
               <MenuItem key={item.id} item={item} index={i}/>)}</div>
           {ci<visibleCats.length-1&&<AnimatedItem delay={.2}><div style={{paddingTop:"40px"}}><TatreezDivider/></div></AnimatedItem>}
         </section>)}
