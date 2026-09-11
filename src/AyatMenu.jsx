@@ -162,7 +162,7 @@ export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.leng
 // by their base name (for example "Chicken Kebab", not "Chicken Kebab (Small)").
 const PORTIONS={
   "Shrimp Kebab":"6 pieces",
-  "Kousa Mahshi":"2 pieces",
+  "Kousa Mahshi":"3 pieces",
   "Wara Dawali":"8 pieces",
   "Kibbeh":"3 pieces",
   "Falafel":"3 pieces",
