@@ -53,7 +53,9 @@ export const TatreezDivider=({color="#B9BEB4",opacity:op=1})=>{
     </svg>);
 };
 
-export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"V",color:"var(--gm)"},VG:{label:"VG",color:"var(--terra)"}};
+// The stored tags read the other way round to their labels: "V" is the vegetarian tag and
+// "VG" is the vegan one, while vegan shows as V on the menu and vegetarian as VEG.
+export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"VEG",color:"var(--gm)"},VG:{label:"V",color:"var(--terra)"}};
 
 // Dietary filters. Note: vegan (VG) items are also vegetarian, so "Vegetarian" matches V OR VG.
 export const dietFilters=[{key:"VG",label:"Vegan"},{key:"V",label:"Vegetarian"},{key:"GF",label:"Gluten-Free"}];
