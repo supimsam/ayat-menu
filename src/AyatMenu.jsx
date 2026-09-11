@@ -289,12 +289,8 @@ export default function AyatMenu(){
     <div style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:0,
       background:"radial-gradient(ellipse at 20% 0%,rgba(43,61,43,.03) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(184,134,11,.03) 0%,transparent 60%)"}}/>
 
-    <div style={{position:"absolute",top:"20px",right:"20px",zIndex:10,display:"flex",
-      flexDirection:"column",alignItems:"flex-end",gap:"7px"}}>
-      <a href="/faq" style={cornerPill}>FAQ <span style={{fontSize:"13px",lineHeight:1}}>→</span></a>
-      <a href="/lunch" style={{...cornerPill,fontSize:"10px",letterSpacing:".04em",padding:"8px 11px",gap:"5px"}}>
-        Lunch Menu <span style={{fontSize:"12px",lineHeight:1}}>→</span></a>
-    </div>
+    <a href="/faq" style={{...cornerPill,position:"absolute",top:"20px",right:"20px",zIndex:10}}>
+      FAQ <span style={{fontSize:"13px",lineHeight:1}}>→</span></a>
 
     <header style={{display:"flex",flexDirection:"column",justifyContent:"center",
       alignItems:"center",textAlign:"center",padding:"26px 24px 20px",position:"relative",zIndex:1}}>
@@ -304,6 +300,9 @@ export default function AyatMenu(){
         display:"flex",flexDirection:"column",alignItems:"center",gap:"10px"}}>
         <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,letterSpacing:".28em",textTransform:"uppercase",color:"var(--tm)"}}>Bushwick&nbsp;·&nbsp;Brooklyn</span>
       </div>
+      <a href="/lunch" style={{...cornerPill,marginTop:"16px",opacity:heroVis?1:0,
+        transition:"opacity 1.5s ease 1.5s"}}>
+        Lunch Menu <span style={{fontSize:"13px",lineHeight:1}}>→</span></a>
       <div style={{marginTop:"22px",
         opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.6s",display:"flex",flexDirection:"column",alignItems:"center",gap:"6px"}}>
         <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".2em",
