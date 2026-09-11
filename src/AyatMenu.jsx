@@ -178,13 +178,22 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
 
+// Notes shown under a section heading, keyed by category slug. Kept in code because
+// the categories table has no note column.
+const CATEGORY_NOTES={
+  lunch:"Monday to Friday, 11am to 3pm. Every platter comes with your choice of two sides (hummus, baba ganoush, muhammara, labneh or mixed greens salad) and a drink (lemonade, hibiscus or ginger ale).",
+};
+
 export function SectionHeader({category}){const[r,v]=useInView();
+  const note=CATEGORY_NOTES[category.slug];
   return <div ref={r} style={{marginBottom:"28px"}}><div style={{display:"flex",alignItems:"center",gap:"20px",
     opacity:v?1:0,transform:v?"translateX(0)":"translateX(-20px)",transition:"all .8s cubic-bezier(.16,1,.3,1)"}}>
     <h2 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"clamp(28px,5vw,38px)",fontWeight:400,
       color:"var(--gd)",letterSpacing:".03em",whiteSpace:"nowrap"}}>{category.label}</h2>
     <div style={{flex:1,height:"1px",background:"linear-gradient(90deg,var(--gm),transparent)",opacity:.2,
-      transform:v?"scaleX(1)":"scaleX(0)",transformOrigin:"left",transition:"transform 1s cubic-bezier(.16,1,.3,1) .3s"}}/></div></div>;}
+      transform:v?"scaleX(1)":"scaleX(0)",transformOrigin:"left",transition:"transform 1s cubic-bezier(.16,1,.3,1) .3s"}}/></div>
+    {note&&<p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",lineHeight:1.6,color:"var(--ts)",
+      marginTop:"10px",maxWidth:"620px",opacity:v?1:0,transition:"opacity .9s ease .35s"}}>{note}</p>}</div>;}
 
 function LoadingSkeleton(){return <div style={{maxWidth:"800px",margin:"0 auto",padding:"48px 24px"}}>
   {[1,2,3,4,5].map(i=><div key={i} style={{height:"80px",borderRadius:"14px",marginBottom:"12px",
