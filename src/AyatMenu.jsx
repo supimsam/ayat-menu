@@ -160,6 +160,29 @@ export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.leng
     color:dark?"#F0C8A0":"var(--terra)",border:`1px solid ${dark?"rgba(240,200,160,.35)":"rgba(184,92,56,.28)"}`,
     background:dark?"rgba(184,92,56,.18)":"rgba(184,92,56,.06)"}}>⚠ {txt}</span>;}
 
+// Meats marinated in yogurt. Kefta and Lamb Ouzi Royale are deliberately absent, and so
+// are dishes whose meat is not marinated (kibbeh, the beef pies, the cigar rolls). Yogurt
+// is dairy, so this is dietary information rather than a flourish.
+export const YOGURT_MARINADE=new Set([
+  "Lamb Kebab","Lamb Kebab Sandwich",
+  "Chicken Kebab","Chicken Kebab Sandwich",
+  "Spicy Chicken Kebab","Spicy Chicken Kebab Sandwich",
+  "Beef Kebab","Beef Kebab Sandwich",
+  "Lamb Chops","BBQ Chicken","Mixed Grill",
+  "Chicken Shawarma Sandwich","Chicken Shawarma Platter",
+  "Beef Shawarma Sandwich","Beef Shawarma Platter",
+  "Mix Shawarma Sandwich","Mix Shawarma Platter",
+  "Araby Chicken Shawarma","Araby Beef Shawarma","Araby Mix Shawarma","Araby Mixed Shawarma",
+  "Pizzawarma",
+]);
+
+export function MarinadeNote({dark}){
+  return <span style={{display:"inline-flex",alignItems:"center",gap:"5px",fontFamily:"'Work Sans',sans-serif",
+    fontSize:"10px",fontWeight:500,letterSpacing:".05em",padding:"3px 10px",borderRadius:"20px",
+    color:dark?"rgba(245,240,230,.75)":"var(--gm)",
+    border:`1px solid ${dark?"rgba(245,240,230,.25)":"rgba(61,90,61,.25)"}`,
+    background:dark?"rgba(245,240,230,.1)":"rgba(61,90,61,.05)"}}>Marinated in yogurt</span>;}
+
 // How many pieces a dish comes with, keyed by dish name. Merged size items are keyed
 // by their base name (for example "Chicken Kebab", not "Chicken Kebab (Small)").
 const PORTIONS={
@@ -258,7 +281,11 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
           letterSpacing:".02em",color:"var(--tm)"}}>{portion}</span>}
       </div>}
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
-    {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
+    {(itemAllergens(item).length>0||YOGURT_MARINADE.has(item.name))&&
+      <div style={{marginTop:"10px",display:"flex",flexWrap:"wrap",gap:"6px"}}>
+        {itemAllergens(item).length>0&&<AllergenNote item={item}/>}
+        {YOGURT_MARINADE.has(item.name)&&<MarinadeNote/>}
+      </div>}
   </div></AnimatedItem>;}
 
 // Notes shown under a section heading, keyed by category slug. Kept in code because

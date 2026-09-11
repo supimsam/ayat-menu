@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { AyatLogo, TatreezDivider, CSS, tagCfg, AllergenNote, AnimatedItem } from "./AyatMenu.jsx";
+import { AyatLogo, TatreezDivider, CSS, tagCfg, AllergenNote, AnimatedItem,
+  itemAllergens, YOGURT_MARINADE, MarinadeNote } from "./AyatMenu.jsx";
 
 // Lunch menu, served Monday to Friday 11am to 3pm. Held here rather than in the
 // database because the dishes overlap the main menu at different prices, and mixing
@@ -145,7 +146,11 @@ export default function LunchMenu() {
                     </div>
                     {item.desc && <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12.5px",
                       color: "var(--ts)", lineHeight: 1.55, marginTop: "5px" }}>{item.desc}</p>}
-                    <AllergenNote item={item} />
+                    {(itemAllergens(item).length > 0 || YOGURT_MARINADE.has(item.name)) &&
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
+                        <AllergenNote item={item} />
+                        {YOGURT_MARINADE.has(item.name) && <MarinadeNote />}
+                      </div>}
                   </div>
                 </AnimatedItem>
               ))}
