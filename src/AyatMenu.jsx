@@ -387,8 +387,8 @@ export default function AyatMenu(){
             background:"var(--gold)",borderRadius:"2px",transition:"left .38s cubic-bezier(.5,1.2,.4,1),width .38s cubic-bezier(.5,1.2,.4,1)"}}/>
           {/* Lunch sits first in the nav and leads to its own page, so it reads as
               "scroll left for lunch" rather than adding another button to the header. */}
-          <a href="/lunch" style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,
-            letterSpacing:".1em",textTransform:"uppercase",color:"var(--gold)",textDecoration:"none",
+          <a href="/lunch" style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:400,
+            letterSpacing:".1em",textTransform:"uppercase",color:"var(--tm)",textDecoration:"none",
             padding:"6px 14px 12px",whiteSpace:"nowrap",flexShrink:0,display:"flex",alignItems:"center",gap:"5px"}}>
             <span style={{fontSize:"12px",lineHeight:1}}>←</span>Lunch Menu</a>
           {visibleCats.map(c=><button key={c.slug} ref={el=>nR.current[c.slug]=el} onClick={()=>goTo(c.slug)}
