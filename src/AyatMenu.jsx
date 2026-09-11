@@ -389,8 +389,7 @@ export default function AyatMenu(){
               "scroll left for lunch" rather than adding another button to the header. */}
           <a href="/lunch" style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:400,
             letterSpacing:".1em",textTransform:"uppercase",color:"var(--tm)",textDecoration:"none",
-            padding:"6px 14px 12px",whiteSpace:"nowrap",flexShrink:0,display:"flex",alignItems:"center",gap:"5px"}}>
-            <span style={{fontSize:"12px",lineHeight:1}}>←</span>Lunch Menu</a>
+            padding:"6px 14px 12px",whiteSpace:"nowrap",flexShrink:0}}>Lunch Menu</a>
           {visibleCats.map(c=><button key={c.slug} ref={el=>nR.current[c.slug]=el} onClick={()=>goTo(c.slug)}
             style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:active===c.slug?600:400,
               letterSpacing:".1em",textTransform:"uppercase",color:active===c.slug?"var(--gd)":"var(--tm)",
