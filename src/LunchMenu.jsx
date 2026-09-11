@@ -41,21 +41,27 @@ const LUNCH = [
   },
 ];
 
-const SIDES = ["Hummus", "Baba ganoush", "Muhammara", "Labneh", "Mixed greens salad"];
-const DRINKS = ["Lemonade", "Hibiscus", "Ginger ale"];
+// Grouped into explicit rows so the segments divide each row evenly, the way the
+// dietary segmented control on the main menu does.
+const SIDES = [["Hummus", "Baba ganoush", "Muhammara"], ["Labneh", "Mixed greens salad"]];
+const DRINKS = [["Lemonade", "Hibiscus", "Ginger ale"]];
 
-// Reads like the dietary segmented control on the main menu. Nothing is selectable
-// here, so every option renders in the unselected state.
-function ChoiceRow({ label, items }) {
+// Nothing is selectable here, so every option renders in the unselected state.
+function ChoiceRow({ label, rows }) {
   return (
     <div>
       <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "10px", fontWeight: 600, letterSpacing: ".14em",
         textTransform: "uppercase", color: "var(--tm)", textAlign: "center", marginBottom: "8px" }}>{label}</p>
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "2px",
-        background: "var(--gp)", border: "1px solid var(--bs)", borderRadius: "11px", padding: "3px" }}>
-        {items.map(i => (
-          <span key={i} style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12px", fontWeight: 500,
-            color: "var(--ts)", padding: "7px 12px", borderRadius: "8px", whiteSpace: "nowrap" }}>{i}</span>
+      <div style={{ background: "var(--gp)", border: "1px solid var(--bs)", borderRadius: "11px",
+        padding: "3px", display: "flex", flexDirection: "column", gap: "2px" }}>
+        {rows.map((row, ri) => (
+          <div key={ri} style={{ display: "flex", gap: "2px" }}>
+            {row.map(i => (
+              <span key={i} style={{ flex: 1, textAlign: "center", fontFamily: "'Work Sans',sans-serif",
+                fontSize: "12px", fontWeight: 500, color: "var(--ts)", padding: "7px 4px",
+                borderRadius: "8px", whiteSpace: "nowrap" }}>{i}</span>
+            ))}
+          </div>
         ))}
       </div>
     </div>
@@ -101,8 +107,8 @@ export default function LunchMenu() {
           <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "16px", fontStyle: "italic",
             color: "var(--ts)", lineHeight: 1.6, textAlign: "center" }}>
             Every platter comes with your choice of two sides, plus a drink.</p>
-          <ChoiceRow label="Pick two sides" items={SIDES} />
-          <ChoiceRow label="Pick a drink" items={DRINKS} />
+          <ChoiceRow label="Pick two sides" rows={SIDES} />
+          <ChoiceRow label="Pick a drink" rows={DRINKS} />
         </div>
       </div>
 
