@@ -209,6 +209,12 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
   const tagEls=(item.tags||[]).map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,
     letterSpacing:".08em",padding:"2px 7px",borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,
     color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null).filter(Boolean);
+  // A short count sits inline beside the tags; long ones would crowd the title, so they
+  // keep their own line. Without this, a name that wraps leaves the tag and the count
+  // stranded on separate lines of their own.
+  const shortPortion=portion&&portion.length<=14;
+  const portionEl=portion?<span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11.5px",
+    fontWeight:500,color:"var(--tm)",whiteSpace:"nowrap"}}>{portion}</span>:null;
   return <AnimatedItem delay={index*.07}><div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)} style={{
     padding:"22px 26px",background:h?"var(--card-h)":"var(--card)",borderRadius:"14px",
     border:`1px solid ${h?"rgba(184,134,11,.18)":"var(--bs)"}`,transition:"all .4s cubic-bezier(.16,1,.3,1)",
@@ -220,7 +226,8 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
         <h3 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"21px",fontWeight:600,
           color:h?"var(--gd)":"var(--tp)",transition:"color .3s ease"}}>{item.name}</h3>
         {/* Size prices take the room tags would need, so those cards put tags on their own line. */}
-        {!item.variants&&tagEls}</div>
+        {!item.variants&&tagEls}
+        {!item.variants&&shortPortion&&portionEl}</div>
       {item.variants
         ? <span style={{display:"flex",gap:"14px",marginLeft:"16px",flexShrink:0,alignItems:"baseline"}}>
             {item.variants.map(v=>
@@ -235,8 +242,8 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
             color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{fmtPrice(item.price)}</span>}</div>
     {item.variants&&tagEls.length>0&&<div style={{display:"flex",gap:"6px",flexWrap:"wrap",
       marginTop:"-4px",marginBottom:"7px"}}>{tagEls}</div>}
-    {portion&&<p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11.5px",fontWeight:500,
-      letterSpacing:".02em",color:"var(--tm)",marginTop:"-4px",marginBottom:"7px"}}>{portion}</p>}
+    {portion&&(item.variants||!shortPortion)&&<p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11.5px",
+      fontWeight:500,letterSpacing:".02em",color:"var(--tm)",marginTop:"-4px",marginBottom:"7px"}}>{portion}</p>}
     <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"13.5px",fontWeight:300,color:"var(--ts)",lineHeight:1.6}}>{item.description}</p>
     {itemAllergens(item).length>0&&<div style={{marginTop:"10px"}}><AllergenNote item={item}/></div>}
   </div></AnimatedItem>;}
