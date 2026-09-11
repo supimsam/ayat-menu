@@ -300,9 +300,6 @@ export default function AyatMenu(){
         display:"flex",flexDirection:"column",alignItems:"center",gap:"10px"}}>
         <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,letterSpacing:".28em",textTransform:"uppercase",color:"var(--tm)"}}>Bushwick&nbsp;·&nbsp;Brooklyn</span>
       </div>
-      <a href="/lunch" style={{...cornerPill,marginTop:"16px",opacity:heroVis?1:0,
-        transition:"opacity 1.5s ease 1.5s"}}>
-        Lunch Menu <span style={{fontSize:"13px",lineHeight:1}}>→</span></a>
       <div style={{marginTop:"22px",
         opacity:heroVis?1:0,transition:"opacity 1.5s ease 1.6s",display:"flex",flexDirection:"column",alignItems:"center",gap:"6px"}}>
         <p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"10px",letterSpacing:".2em",
@@ -324,6 +321,12 @@ export default function AyatMenu(){
         <div style={{position:"relative",display:"flex",gap:"4px",padding:"10px 0 0",width:"max-content",minWidth:"100%"}}>
           <div style={{position:"absolute",bottom:0,left:thumb.left,width:thumb.width,height:"2px",
             background:"var(--gold)",borderRadius:"2px",transition:"left .38s cubic-bezier(.5,1.2,.4,1),width .38s cubic-bezier(.5,1.2,.4,1)"}}/>
+          {/* Lunch sits first in the nav and leads to its own page, so it reads as
+              "scroll left for lunch" rather than adding another button to the header. */}
+          <a href="/lunch" style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:500,
+            letterSpacing:".1em",textTransform:"uppercase",color:"var(--gold)",textDecoration:"none",
+            padding:"6px 14px 12px",whiteSpace:"nowrap",flexShrink:0,display:"flex",alignItems:"center",gap:"5px"}}>
+            <span style={{fontSize:"12px",lineHeight:1}}>←</span>Lunch Menu</a>
           {visibleCats.map(c=><button key={c.slug} ref={el=>nR.current[c.slug]=el} onClick={()=>goTo(c.slug)}
             style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:active===c.slug?600:400,
               letterSpacing:".1em",textTransform:"uppercase",color:active===c.slug?"var(--gd)":"var(--tm)",
