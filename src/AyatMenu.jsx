@@ -273,7 +273,7 @@ const cornerPill={display:"flex",alignItems:"center",gap:"6px",fontFamily:"'Work
 
 const CATEGORY_NOTES={
   lunch:"Monday to Friday, 11am to 3pm. Every platter comes with your choice of two sides (hummus, baba ganoush, muhammara, labneh or mixed greens salad) and a drink (lemonade, hibiscus or ginger ale).",
-  family:"For four people or more, priced per person. Every platter is served with hummus, baba ghanoush, muhammarah, fattoush and cucumber salad.",
+  family:"Family platters are priced per person and need a minimum of 4 people. A table of 4 can order one, a table of 3 cannot. Every family platter is served with hummus, baba ghanoush, muhammarah, fattoush and cucumber salad.\n\nFattat Jaj: $34 per person (min 4, order $136)\nFattat Lahma: $34 per person (min 4, order $136)\nVegetarian: $36 per person (min 4, order $144)\nMaklouba: $38 per person (min 4, order $152)\nFamily Mashawy: $44 per person (min 4, order $176)\nMansaf: $46 per person (min 4, order $184)",
 };
 
 // Categories priced per head rather than per dish, so the price needs saying so.
@@ -288,7 +288,8 @@ export function SectionHeader({category}){const[r,v]=useInView();
     <div style={{flex:1,height:"1px",background:"linear-gradient(90deg,var(--gm),transparent)",opacity:.2,
       transform:v?"scaleX(1)":"scaleX(0)",transformOrigin:"left",transition:"transform 1s cubic-bezier(.16,1,.3,1) .3s"}}/></div>
     {note&&<p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",lineHeight:1.6,color:"var(--ts)",
-      marginTop:"10px",maxWidth:"620px",opacity:v?1:0,transition:"opacity .9s ease .35s"}}>{note}</p>}</div>;}
+      marginTop:"10px",maxWidth:"620px",whiteSpace:"pre-line",opacity:v?1:0,
+      transition:"opacity .9s ease .35s"}}>{note}</p>}</div>;}
 
 function LoadingSkeleton(){return <div style={{maxWidth:"800px",margin:"0 auto",padding:"48px 24px"}}>
   {[1,2,3,4,5].map(i=><div key={i} style={{height:"80px",borderRadius:"14px",marginBottom:"12px",
