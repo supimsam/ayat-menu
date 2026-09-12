@@ -207,7 +207,9 @@ const fmtPrice=p=>{const n=Number(p);
   return Number.isFinite(n)?(Number.isInteger(n)?String(n):n.toFixed(2)):p;};
 
 function MenuItem({item,index,perPerson}){const[h,setH]=useState(false);
-  const portion=PORTIONS[item.name];
+  // Per-person dishes state their minimum order instead of a piece count. The total is
+  // derived from the price, so it cannot drift out of step if a price changes.
+  const portion=perPerson?`Min 4, order $${fmtPrice(item.price*4)}`:PORTIONS[item.name];
   // Tags sit beside the title when there is room for them there. When the name wraps, or
   // when the tags would not fit on the title's line, they drop down and share a line with
   // the count instead of being stranded one per line. Measured from the title alone, whose
@@ -273,7 +275,7 @@ const cornerPill={display:"flex",alignItems:"center",gap:"6px",fontFamily:"'Work
 
 const CATEGORY_NOTES={
   lunch:"Monday to Friday, 11am to 3pm. Every platter comes with your choice of two sides (hummus, baba ganoush, muhammara, labneh or mixed greens salad) and a drink (lemonade, hibiscus or ginger ale).",
-  family:"Family platters are priced per person and need a minimum of 4 people. A table of 4 can order one, a table of 3 cannot. Every family platter is served with hummus, baba ghanoush, muhammarah, fattoush and cucumber salad.\n\nFattat Jaj: $34 per person (min 4, order $136)\nFattat Lahma: $34 per person (min 4, order $136)\nVegetarian: $36 per person (min 4, order $144)\nMaklouba: $38 per person (min 4, order $152)\nFamily Mashawy: $44 per person (min 4, order $176)\nMansaf: $46 per person (min 4, order $184)",
+  family:"Family platters are priced per person and need a minimum of 4 people. A table of 4 can order one, a table of 3 cannot. Every family platter is served with hummus, baba ghanoush, muhammarah, fattoush and cucumber salad.",
 };
 
 // Categories priced per head rather than per dish, so the price needs saying so.
