@@ -163,11 +163,9 @@ export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.leng
 // Meats marinated in yogurt. Kefta and Lamb Ouzi Royale are deliberately absent, and so
 // are dishes whose meat is not marinated (kibbeh, the beef pies, the cigar rolls). Yogurt
 // is dairy, so this is dietary information rather than a flourish.
+// The kebabs are absent because their own descriptions name the yogurt, so appending it
+// again would say "marinated" twice in one sentence.
 export const YOGURT_MARINADE=new Set([
-  "Lamb Kebab","Lamb Kebab Sandwich",
-  "Chicken Kebab","Chicken Kebab Sandwich",
-  "Spicy Chicken Kebab","Spicy Chicken Kebab Sandwich",
-  "Beef Kebab","Beef Kebab Sandwich",
   "Lamb Chops","BBQ Chicken","Mixed Grill",
   "Chicken Shawarma Sandwich","Chicken Shawarma Platter",
   "Beef Shawarma Sandwich","Beef Shawarma Platter",

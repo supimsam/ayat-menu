@@ -10,7 +10,8 @@ const LUNCH = [
     label: "Platters", note: "Each comes with two sides and a drink",
     items: [
       { name: "Kefta", price: 19 },
-      { name: "Chicken Kebab", price: 19 },
+      { name: "Chicken Kebab", price: 19,
+        desc: "Grilled chicken chunks marinated in yogurt with spices and herbs" },
       { name: "Chicken Shawarma Platter", price: 17 },
       { name: "Beef Shawarma Platter", price: 17 },
       { name: "Mix Shawarma Platter", price: 17 },
