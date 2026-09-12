@@ -209,7 +209,7 @@ const fmtPrice=p=>{const n=Number(p);
 function MenuItem({item,index,perPerson}){const[h,setH]=useState(false);
   // Per-person dishes state their minimum order instead of a piece count. The total is
   // derived from the price, so it cannot drift out of step if a price changes.
-  const portion=perPerson?`Min 4, order $${fmtPrice(item.price*4)}`:PORTIONS[item.name];
+  const portion=perPerson?`Min order: 4/$${fmtPrice(item.price*4)}`:PORTIONS[item.name];
   // Tags sit beside the title when there is room for them there. When the name wraps, or
   // when the tags would not fit on the title's line, they drop down and share a line with
   // the count instead of being stranded one per line. Measured from the title alone, whose
