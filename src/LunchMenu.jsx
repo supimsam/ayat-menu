@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { AyatLogo, TatreezDivider, CSS, tagCfg, AllergenNote, AnimatedItem,
-  itemAllergens, withMarinade } from "./AyatMenu.jsx";
+  itemAllergens } from "./AyatMenu.jsx";
 
 // Lunch menu, served Monday to Friday 11am to 3pm. Held here rather than in the
 // database because the dishes overlap the main menu at different prices, and mixing
@@ -10,8 +10,7 @@ const LUNCH = [
     label: "Platters", note: "Each comes with two sides and a drink",
     items: [
       { name: "Kefta", price: 19 },
-      { name: "Chicken Kebab", price: 19,
-        desc: "Grilled chicken chunks marinated in yogurt with spices and herbs" },
+      { name: "Chicken Kebab", price: 19 },
       { name: "Chicken Shawarma Platter", price: 17 },
       { name: "Beef Shawarma Platter", price: 17 },
       { name: "Mix Shawarma Platter", price: 17 },
@@ -145,9 +144,8 @@ export default function LunchMenu() {
                       <span style={{ fontFamily: "'Bodoni Moda',serif", fontSize: "19px", fontStyle: "italic",
                         color: "var(--gd)", flexShrink: 0 }}>{item.price}</span>
                     </div>
-                    {withMarinade(item.desc, item.name) && <p style={{ fontFamily: "'Work Sans',sans-serif",
-                      fontSize: "12.5px", color: "var(--ts)", lineHeight: 1.55, marginTop: "5px" }}>
-                      {withMarinade(item.desc, item.name)}</p>}
+                    {item.desc && <p style={{ fontFamily: "'Work Sans',sans-serif", fontSize: "12.5px",
+                      color: "var(--ts)", lineHeight: 1.55, marginTop: "5px" }}>{item.desc}</p>}
                     {itemAllergens(item).length > 0 &&
                       <div style={{ marginTop: "8px" }}><AllergenNote item={item} /></div>}
                   </div>
