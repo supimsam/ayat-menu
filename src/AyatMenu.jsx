@@ -407,7 +407,9 @@ export default function AyatMenu(){
               transition:"color .3s ease,font-weight .3s ease",whiteSpace:"nowrap",flexShrink:0}}>{c.label}</button>)}
         </div></div></nav>}
 
-    <main style={{maxWidth:"800px",margin:"0 auto",padding:"48px 24px 120px",position:"relative",zIndex:1}}>
+    {/* Top padding matches the gaps inside the filter group, so the halal line, the diet
+        control and the nut toggle are evenly spaced from the nav down. */}
+    <main style={{maxWidth:"800px",margin:"0 auto",padding:"14px 24px 120px",position:"relative",zIndex:1}}>
       {loading&&<LoadingSkeleton/>}
       {error&&<div style={{textAlign:"center",padding:"40px",color:"var(--terra)"}}><p>Could not load the menu. Please try refreshing.</p></div>}
       {!loading&&!error&&<>
