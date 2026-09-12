@@ -188,7 +188,7 @@ const PORTIONS={
   "Shrimp Kebab":"6 pieces",
   "Kousa Mahshi":"3 pieces",
   "Wara Dawali":"8 pieces",
-  "Kibbeh":"3 pieces",
+  "Kibbeh":"4 pieces",
   "Falafel":"5 pieces",
   "Hot Appetizers Mix":"4 falafel, 2 kibbeh, 4 wara dawali, 2 kousa mahshi, 2 fried halloumi, and 2 each of the beef and cheese rolls",
   "Shatta-Fired Wings":"6 pieces",
@@ -197,14 +197,14 @@ const PORTIONS={
   "Cigar Rolls with Cheese":"3 pieces",
   "Cigar Rolls with Ground Beef":"3 pieces",
   "Cigar Rolls with Spinach & Cheese":"3 pieces",
-  "Mixed Grill":"3 kebab pieces, 2 kefta and 1 lamb chop",
+  "Mixed Grill":"3 chicken kebab pieces, 3 beef kebab pieces, 2 kefta and 1 lamb chop",
   "Lamb Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
   "Chicken Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
   "Spicy Chicken Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
   "Beef Kebab":"Small is one skewer, 5 pieces. Large is two skewers, 10 pieces.",
-  "Kefta":"Small is 2 pieces, large is 4 pieces.",
-  "Spicy Kefta":"Small is 2 pieces, large is 4 pieces.",
-  "Vegan Kefta":"Small is 2 pieces, large is 4 pieces.",
+  "Kefta":"Small is 1 piece, large is 2 pieces.",
+  "Spicy Kefta":"Small is 1 piece, large is 2 pieces.",
+  "Vegan Kefta":"Small is 1 piece, large is 2 pieces.",
 };
 
 // "Chicken Kebab (Small)" and "Chicken Kebab (Large)" are one dish with two sizes, so
