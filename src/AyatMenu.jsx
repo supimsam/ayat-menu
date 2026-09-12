@@ -206,7 +206,7 @@ function mergeSizes(items){
 const fmtPrice=p=>{const n=Number(p);
   return Number.isFinite(n)?(Number.isInteger(n)?String(n):n.toFixed(2)):p;};
 
-function MenuItem({item,index}){const[h,setH]=useState(false);
+function MenuItem({item,index,perPerson}){const[h,setH]=useState(false);
   const portion=PORTIONS[item.name];
   // Tags sit beside the title when there is room for them there. When the name wraps, or
   // when the tags would not fit on the title's line, they drop down and share a line with
@@ -247,7 +247,8 @@ function MenuItem({item,index}){const[h,setH]=useState(false);
               </span>)}
           </span>
         : <span style={{fontFamily:"'Work Sans',sans-serif",fontSize:"17px",fontWeight:500,
-            color:"var(--tp)",marginLeft:"16px",flexShrink:0}}>{fmtPrice(item.price)}</span>}</div>
+            color:"var(--tp)",marginLeft:"16px",flexShrink:0,whiteSpace:"nowrap"}}>{fmtPrice(item.price)}
+            {perPerson&&<span style={{fontSize:"10.5px",fontWeight:500,color:"var(--tm)"}}> /person</span>}</span>}</div>
     {/* Title with its tags, then the count, then the description. Tags that could not fit
         beside the title join the count on this line rather than taking one of their own. */}
     {(((item.variants||wrapped)&&tagEls.length>0)||portion)&&
@@ -272,7 +273,11 @@ const cornerPill={display:"flex",alignItems:"center",gap:"6px",fontFamily:"'Work
 
 const CATEGORY_NOTES={
   lunch:"Monday to Friday, 11am to 3pm. Every platter comes with your choice of two sides (hummus, baba ganoush, muhammara, labneh or mixed greens salad) and a drink (lemonade, hibiscus or ginger ale).",
+  family:"For four people or more, priced per person. Every platter is served with hummus, baba ghanoush, muhammarah, fattoush and cucumber salad.",
 };
+
+// Categories priced per head rather than per dish, so the price needs saying so.
+const PER_PERSON=new Set(["family"]);
 
 export function SectionHeader({category}){const[r,v]=useInView();
   const note=CATEGORY_NOTES[category.slug];
@@ -435,7 +440,7 @@ export default function AyatMenu(){
           <SectionHeader category={cat}/>
           <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
             {mergeSizes(filteredItems[cat.slug]||[]).map((item,i)=>
-              <MenuItem key={item.id} item={item} index={i}/>)}</div>
+              <MenuItem key={item.id} item={item} index={i} perPerson={PER_PERSON.has(cat.slug)}/>)}</div>
           {ci<visibleCats.length-1&&<AnimatedItem delay={.2}><div style={{paddingTop:"40px"}}><TatreezDivider/></div></AnimatedItem>}
         </section>)}
         <AnimatedItem><footer style={{textAlign:"center",paddingTop:"40px",borderTop:"1px solid var(--bs)"}}>
