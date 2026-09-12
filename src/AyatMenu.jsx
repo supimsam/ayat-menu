@@ -409,15 +409,15 @@ export default function AyatMenu(){
 
     {/* One gap value runs from the nav down to the first section heading, so the halal
         line, the diet control and the nut toggle are evenly spaced throughout. */}
-    <main style={{maxWidth:"800px",margin:"0 auto",padding:"24px 24px 120px",position:"relative",zIndex:1}}>
+    <main style={{maxWidth:"800px",margin:"0 auto",padding:"32px 24px 120px",position:"relative",zIndex:1}}>
       {loading&&<LoadingSkeleton/>}
       {error&&<div style={{textAlign:"center",padding:"40px",color:"var(--terra)"}}><p>Could not load the menu. Please try refreshing.</p></div>}
       {!loading&&!error&&<>
         {/* The halal line, the diet control and the nut toggle sit one gap apart. */}
         <AnimatedItem><p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",color:"var(--tm)",
-          textAlign:"center",marginBottom:"24px",letterSpacing:".03em"}}>
+          textAlign:"center",marginBottom:"32px",letterSpacing:".03em"}}>
           All meats are halal</p></AnimatedItem>
-        <AnimatedItem><div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"24px",marginBottom:"24px"}}>
+        <AnimatedItem><div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"32px",marginBottom:"32px"}}>
           {(()=>{const segs=[{k:"",l:"All"},...dietFilters.map(f=>({k:f.key,l:f.label==="Gluten-Free"?"GF":f.label}))];
             const cur=diet[0]||"";const idx=Math.max(0,segs.findIndex(s=>s.k===cur));const n=segs.length;const nutOn=allergy.includes("nuts");
             return <>
