@@ -411,10 +411,11 @@ export default function AyatMenu(){
       {loading&&<LoadingSkeleton/>}
       {error&&<div style={{textAlign:"center",padding:"40px",color:"var(--terra)"}}><p>Could not load the menu. Please try refreshing.</p></div>}
       {!loading&&!error&&<>
+        {/* The halal line, the diet control and the nut toggle sit one gap apart. */}
         <AnimatedItem><p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",color:"var(--tm)",
-          textAlign:"center",marginBottom:"28px",letterSpacing:".03em"}}>
+          textAlign:"center",marginBottom:"14px",letterSpacing:".03em"}}>
           All meats are halal</p></AnimatedItem>
-        <AnimatedItem><div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"12px",marginBottom:"48px"}}>
+        <AnimatedItem><div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"14px",marginBottom:"48px"}}>
           {(()=>{const segs=[{k:"",l:"All"},...dietFilters.map(f=>({k:f.key,l:f.label==="Gluten-Free"?"GF":f.label}))];
             const cur=diet[0]||"";const idx=Math.max(0,segs.findIndex(s=>s.k===cur));const n=segs.length;const nutOn=allergy.includes("nuts");
             return <>
