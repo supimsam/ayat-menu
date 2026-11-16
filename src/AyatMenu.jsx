@@ -172,7 +172,7 @@ export const PORTIONS={
   "Wara Dawali":"8 pieces",
   "Kibbeh":"4 pieces",
   "Falafel":"5 pieces",
-  "Hot Appetizers Mix":"4 falafel, 2 kibbeh, 4 wara dawali, 2 kousa mahshi, 2 fried halloumi, and 2 each of the beef and cheese rolls",
+  "Hot Appetizers Mix":"4 falafel, 2 kibbeh, 4 wara dawali, 2 kousa mahshi, 2 fried halloumi, and 2 each of the beef and cheese rolls",
   "Shatta-Fired Wings":"6 pieces",
   "Wood-Fired Wings":"6 pieces",
   "Fried Halloumi":"4 pieces",
