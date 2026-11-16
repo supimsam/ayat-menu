@@ -166,7 +166,7 @@ export function AllergenNote({item,dark}){const a=itemAllergens(item);if(!a.leng
 
 // How many pieces a dish comes with, keyed by dish name. Merged size items are keyed
 // by their base name (for example "Chicken Kebab", not "Chicken Kebab (Small)").
-const PORTIONS={
+export const PORTIONS={
   "Shrimp Kebab":"6 pieces",
   "Kousa Mahshi":"3 pieces",
   "Wara Dawali":"8 pieces",
@@ -192,7 +192,7 @@ const PORTIONS={
 // "Chicken Kebab (Small)" and "Chicken Kebab (Large)" are one dish with two sizes, so
 // they collapse into a single card showing both prices instead of two near-identical rows.
 const SIZE_RE=/^(.*) \((Small|Large)\)$/;
-function mergeSizes(items){
+export function mergeSizes(items){
   const out=[];const seen={};
   for(const it of items){
     const m=it.name.match(SIZE_RE);
@@ -207,7 +207,7 @@ function mergeSizes(items){
 }
 
 // 28.8 should read as 28.80; whole numbers stay bare, matching the rest of the menu.
-const fmtPrice=p=>{const n=Number(p);
+export const fmtPrice=p=>{const n=Number(p);
   return Number.isFinite(n)?(Number.isInteger(n)?String(n):n.toFixed(2)):p;};
 
 function MenuItem({item,index,perPerson}){const[h,setH]=useState(false);
@@ -285,7 +285,7 @@ const CATEGORY_NOTES={
 };
 
 // Categories priced per head rather than per dish, so the price needs saying so.
-const PER_PERSON=new Set(["family"]);
+export const PER_PERSON=new Set(["family"]);
 
 export function SectionHeader({category}){const[r,v]=useInView();
   const note=CATEGORY_NOTES[category.slug];

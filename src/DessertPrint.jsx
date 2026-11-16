@@ -97,7 +97,6 @@ function Card({ sweets, cakes }) {
       {cakes.map(row)}
       <div className="dp-foot">
         <TatreezDivider />
-        <p className="dp-foot-line">ayatbushwick.menu</p>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import QRCard from './QRCard.jsx'
 import FaqPage from './FaqPage.jsx'
 import CateringDemo from './CateringDemo.jsx'
 import DessertPrint from './DessertPrint.jsx'
+import FullMenuPrint from './FullMenuPrint.jsx'
 
 const CATERING_URL = 'https://www.ayatnyc.com/menu/catering-menu/'
 
@@ -13,6 +14,7 @@ const hash = window.location.hash
 const isQR = path.endsWith('/qr') || hash === '#qr'
 const isFaq = path.endsWith('/faq') || hash === '#faq'
 const isDessertPrint = path.endsWith('/dessert-menu') || hash === '#dessert-menu'
+const isMenuPrint = path.endsWith('/print-menu') || hash === '#print-menu'
 // Work-in-progress concept, reachable on the dev server only. On the live site
 // /catering-demo falls through to the main menu.
 const isCateringDemo = import.meta.env.DEV &&
@@ -27,6 +29,7 @@ if (isCatering) {
   ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       {isQR ? <QRCard /> : isFaq ? <FaqPage /> : isDessertPrint ? <DessertPrint />
+        : isMenuPrint ? <FullMenuPrint />
         : isCateringDemo ? <CateringDemo /> : <AyatMenu />}
     </React.StrictMode>,
   )
