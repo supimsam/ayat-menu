@@ -59,7 +59,7 @@ export const TatreezDivider=({color="#B9BEB4",opacity:op=1})=>{
 
 // The stored tags read the other way round to their labels: "V" is the vegetarian tag and
 // "VG" is the vegan one, while vegan shows as V on the menu and vegetarian as VEG.
-export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"VEG",color:"var(--gm)"},VG:{label:"V",color:"var(--terra)"}};
+export const tagCfg={GF:{label:"GF",color:"var(--gl)"},V:{label:"VEG",color:"var(--gm)"},VG:{label:"Vegan",color:"var(--terra)"}};
 
 // Dietary filters. Note: vegan (VG) items are also vegetarian, so "Vegetarian" matches V OR VG.
 export const dietFilters=[{key:"VG",label:"Vegan"},{key:"V",label:"Vegetarian"},{key:"GF",label:"Gluten-Free"}];
@@ -218,15 +218,18 @@ function MenuItem({item,index,perPerson}){const[h,setH]=useState(false);
   // when the tags would not fit on the title's line, they drop down and share a line with
   // the count instead of being stranded one per line. Measured from the title alone, whose
   // width does not change when the tags move, so the decision cannot oscillate.
-  const tagCount=(item.tags||[]).filter(t=>tagCfg[t]).length;
+  // Rough width of the tag row: ~7px per uppercase character plus the pill's padding
+  // and gap. Label-aware, so a long label like "Vegan" is not treated as a short one.
+  const tagWidth=(item.tags||[]).filter(t=>tagCfg[t])
+    .reduce((w,t)=>w+tagCfg[t].label.length*7+24,0);
   const titleRef=useRef(null);const[wrapped,setWrapped]=useState(false);
   useEffect(()=>{const el=titleRef.current,row=el&&el.parentElement;if(!el||!row)return;
     const check=()=>{const fs=parseFloat(getComputedStyle(el).fontSize)||21;
       const titleWrapped=el.offsetHeight>fs*1.6;
       const room=row.clientWidth-el.offsetWidth-8;// space left on the title's line
-      setWrapped(titleWrapped||(tagCount>0&&room<tagCount*38));};
+      setWrapped(titleWrapped||(tagWidth>0&&room<tagWidth));};
     check();
-    const ro=new ResizeObserver(check);ro.observe(row);return()=>ro.disconnect();},[item.name,tagCount]);
+    const ro=new ResizeObserver(check);ro.observe(row);return()=>ro.disconnect();},[item.name,tagWidth]);
   const tagEls=(item.tags||[]).map(t=>tagCfg[t]?<span key={t} style={{fontSize:"9px",fontWeight:600,
     letterSpacing:".08em",padding:"2px 7px",borderRadius:"20px",border:`1px solid ${tagCfg[t].color}33`,
     color:tagCfg[t].color,textTransform:"uppercase"}}>{tagCfg[t].label}</span>:null).filter(Boolean);
