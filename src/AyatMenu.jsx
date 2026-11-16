@@ -278,7 +278,6 @@ const cornerPill={display:"flex",alignItems:"center",gap:"6px",fontFamily:"'Work
   whiteSpace:"nowrap"};
 
 const CATEGORY_NOTES={
-  lunch:"Monday to Friday, 11am to 3pm. Every platter comes with your choice of two sides (hummus, baba ganoush, muhammara, labneh or mixed greens salad) and a drink (lemonade, hibiscus or ginger ale).",
   family:"Family platters are priced per person and need a minimum of 4 people. A table of 4 can order one, a table of 3 cannot. Every family platter is served with hummus, baba ghanoush, muhammarah, fattoush and cucumber salad.",
 };
 
@@ -406,15 +405,26 @@ export default function AyatMenu(){
     {categories.length>0&&<nav style={{position:"sticky",top:0,zIndex:50,padding:"0 24px",
       backdropFilter:"blur(20px) saturate(1.4)",WebkitBackdropFilter:"blur(20px) saturate(1.4)",
       background:"rgba(245,240,230,.92)",borderBottom:"1px solid var(--bs)"}}>
+      {/* Search rides along in the sticky bar, so it stays reachable down a long menu. */}
+      <div style={{maxWidth:"800px",margin:"0 auto",paddingTop:"9px"}}>
+        <div style={{position:"relative"}}>
+          <span style={{position:"absolute",left:"12px",top:"50%",transform:"translateY(-50%)",
+            fontSize:"13px",color:"var(--tm)",pointerEvents:"none",lineHeight:1}}>⌕</span>
+          <input value={query} onChange={e=>setQuery(e.target.value)} type="search"
+            placeholder="Search the menu" aria-label="Search the menu"
+            style={{width:"100%",fontFamily:"'Work Sans',sans-serif",fontSize:"13px",color:"var(--tp)",
+              background:"rgba(43,61,43,.05)",border:"1px solid var(--bs)",borderRadius:"10px",
+              padding:"8px 32px 8px 30px",outline:"none",WebkitAppearance:"none",appearance:"none"}}/>
+          {query&&<button onClick={()=>setQuery("")} aria-label="Clear search"
+            style={{position:"absolute",right:"7px",top:"50%",transform:"translateY(-50%)",
+              width:"19px",height:"19px",borderRadius:"50%",border:"none",background:"rgba(43,61,43,.12)",
+              color:"var(--ts)",cursor:"pointer",fontSize:"12px",lineHeight:1,padding:0}}>×</button>}
+        </div>
+      </div>
       <div style={{maxWidth:"800px",margin:"0 auto",overflowX:"auto",scrollbarWidth:"none",msOverflowStyle:"none"}}>
         <div style={{position:"relative",display:"flex",gap:"4px",padding:"10px 0 0",width:"max-content",minWidth:"100%"}}>
           <div style={{position:"absolute",bottom:0,left:thumb.left,width:thumb.width,height:"2px",
             background:"var(--gold)",borderRadius:"2px",transition:"left .38s cubic-bezier(.5,1.2,.4,1),width .38s cubic-bezier(.5,1.2,.4,1)"}}/>
-          {/* Lunch sits first in the nav and leads to its own page, so it reads as
-              "scroll left for lunch" rather than adding another button to the header. */}
-          <a href="/lunch" style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:400,
-            letterSpacing:".1em",textTransform:"uppercase",color:"var(--tm)",textDecoration:"none",
-            padding:"6px 14px 12px",whiteSpace:"nowrap",flexShrink:0}}>Lunch Menu</a>
           {visibleCats.map(c=><button key={c.slug} ref={el=>nR.current[c.slug]=el} onClick={()=>goTo(c.slug)}
             style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",fontWeight:active===c.slug?600:400,
               letterSpacing:".1em",textTransform:"uppercase",color:active===c.slug?"var(--gd)":"var(--tm)",
@@ -432,20 +442,6 @@ export default function AyatMenu(){
         <AnimatedItem><p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",color:"var(--tm)",
           textAlign:"center",marginBottom:"32px",letterSpacing:".03em"}}>
           All meats are halal</p></AnimatedItem>
-        <AnimatedItem><div style={{display:"flex",justifyContent:"center",marginBottom:"32px"}}>
-          <div style={{position:"relative",width:"320px",maxWidth:"90vw"}}>
-            <span style={{position:"absolute",left:"14px",top:"50%",transform:"translateY(-50%)",
-              fontSize:"13px",color:"var(--tm)",pointerEvents:"none",lineHeight:1}}>⌕</span>
-            <input value={query} onChange={e=>setQuery(e.target.value)} type="search"
-              placeholder="Search the menu" aria-label="Search the menu"
-              style={{width:"100%",fontFamily:"'Work Sans',sans-serif",fontSize:"13px",color:"var(--tp)",
-                background:"var(--gp)",border:"1px solid var(--bs)",borderRadius:"11px",
-                padding:"10px 34px 10px 32px",outline:"none",WebkitAppearance:"none",appearance:"none"}}/>
-            {query&&<button onClick={()=>setQuery("")} aria-label="Clear search"
-              style={{position:"absolute",right:"8px",top:"50%",transform:"translateY(-50%)",
-                width:"20px",height:"20px",borderRadius:"50%",border:"none",background:"rgba(43,61,43,.1)",
-                color:"var(--ts)",cursor:"pointer",fontSize:"12px",lineHeight:1,padding:0}}>×</button>}
-          </div></div></AnimatedItem>
         <AnimatedItem><div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"32px",marginBottom:"32px"}}>
           {(()=>{const segs=[{k:"",l:"All"},...dietFilters.map(f=>({k:f.key,l:f.label==="Gluten-Free"?"GF":f.label}))];
             const cur=diet[0]||"";const idx=Math.max(0,segs.findIndex(s=>s.k===cur));const n=segs.length;const nutOn=allergy.includes("nuts");
