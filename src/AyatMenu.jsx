@@ -38,6 +38,10 @@ body{background:var(--bg);color:var(--tp);font-family:'Work Sans',sans-serif;ove
 @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .menu-scroll{height:100vh;height:100dvh}
 nav div::-webkit-scrollbar{display:none}
+/* WebKit adds its own clear button to type=search; the menu draws its own. */
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration{-webkit-appearance:none;appearance:none;display:none}
+input[type=search]::placeholder{color:var(--tm);opacity:1}
 `;
 
 export const AyatLogo=({width=260,opacity=1})=>(
@@ -307,18 +311,29 @@ export default function AyatMenu(){
   const[heroVis,setHeroVis]=useState(false);
   const[diet,setDiet]=useState([]);
   const[allergy,setAllergy]=useState([]);
+  const[query,setQuery]=useState("");
   const[thumb,setThumb]=useState({left:0,width:0});// sliding underline indicator geometry
   const sR=useRef({});const nR=useRef({});const scR=useRef(null);
 
   const toggleAllergy=useCallback(k=>setAllergy(a=>a.includes(k)?a.filter(x=>x!==k):[...a,k]),[]);
-  const clearAll=useCallback(()=>{setDiet([]);setAllergy([]);},[]);
+  const clearAll=useCallback(()=>{setDiet([]);setAllergy([]);setQuery("");},[]);
+
+  // Search matches the dish name and its description, so "almond" or "yogurt" finds
+  // dishes by ingredient, not just by name.
+  const matchesQuery=useCallback(it=>{
+    const q=query.trim().toLowerCase();
+    if(!q)return true;
+    return (it.name+" "+(it.description||"")).toLowerCase().includes(q);
+  },[query]);
 
   const filteredItems=useMemo(()=>{
-    if(!diet.length&&!allergy.length)return menuItems;
+    const q=query.trim();
+    if(!diet.length&&!allergy.length&&!q)return menuItems;
     const out={};
-    for(const slug in menuItems)out[slug]=menuItems[slug].filter(it=>matchesDiet(it,diet)&&matchesAllergy(it,allergy));
+    for(const slug in menuItems)
+      out[slug]=menuItems[slug].filter(it=>matchesDiet(it,diet)&&matchesAllergy(it,allergy)&&matchesQuery(it));
     return out;
-  },[menuItems,diet,allergy]);
+  },[menuItems,diet,allergy,query,matchesQuery]);
   const visibleCats=useMemo(()=>categories.filter(c=>(filteredItems[c.slug]?.length||0)>0),[categories,filteredItems]);
   const totalShown=useMemo(()=>visibleCats.reduce((n,c)=>n+filteredItems[c.slug].length,0),[visibleCats,filteredItems]);
 
@@ -413,10 +428,24 @@ export default function AyatMenu(){
       {loading&&<LoadingSkeleton/>}
       {error&&<div style={{textAlign:"center",padding:"40px",color:"var(--terra)"}}><p>Could not load the menu. Please try refreshing.</p></div>}
       {!loading&&!error&&<>
-        {/* The halal line, the diet control and the nut toggle sit one gap apart. */}
+        {/* The halal line, the search box, the diet control and the nut toggle sit one gap apart. */}
         <AnimatedItem><p style={{fontFamily:"'Work Sans',sans-serif",fontSize:"12px",color:"var(--tm)",
           textAlign:"center",marginBottom:"32px",letterSpacing:".03em"}}>
           All meats are halal</p></AnimatedItem>
+        <AnimatedItem><div style={{display:"flex",justifyContent:"center",marginBottom:"32px"}}>
+          <div style={{position:"relative",width:"320px",maxWidth:"90vw"}}>
+            <span style={{position:"absolute",left:"14px",top:"50%",transform:"translateY(-50%)",
+              fontSize:"13px",color:"var(--tm)",pointerEvents:"none",lineHeight:1}}>⌕</span>
+            <input value={query} onChange={e=>setQuery(e.target.value)} type="search"
+              placeholder="Search the menu" aria-label="Search the menu"
+              style={{width:"100%",fontFamily:"'Work Sans',sans-serif",fontSize:"13px",color:"var(--tp)",
+                background:"var(--gp)",border:"1px solid var(--bs)",borderRadius:"11px",
+                padding:"10px 34px 10px 32px",outline:"none",WebkitAppearance:"none",appearance:"none"}}/>
+            {query&&<button onClick={()=>setQuery("")} aria-label="Clear search"
+              style={{position:"absolute",right:"8px",top:"50%",transform:"translateY(-50%)",
+                width:"20px",height:"20px",borderRadius:"50%",border:"none",background:"rgba(43,61,43,.1)",
+                color:"var(--ts)",cursor:"pointer",fontSize:"12px",lineHeight:1,padding:0}}>×</button>}
+          </div></div></AnimatedItem>
         <AnimatedItem><div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"32px",marginBottom:"32px"}}>
           {(()=>{const segs=[{k:"",l:"All"},...dietFilters.map(f=>({k:f.key,l:f.label==="Gluten-Free"?"GF":f.label}))];
             const cur=diet[0]||"";const idx=Math.max(0,segs.findIndex(s=>s.k===cur));const n=segs.length;const nutOn=allergy.includes("nuts");
@@ -438,7 +467,7 @@ export default function AyatMenu(){
         </div></AnimatedItem>
         {totalShown===0&&<div style={{textAlign:"center",padding:"60px 20px"}}>
           <p style={{fontFamily:"'Cormorant Garamond',serif",fontSize:"22px",fontStyle:"italic",color:"var(--tm)",marginBottom:"16px"}}>
-            No dishes match those filters.</p>
+            {query.trim()?`Nothing on the menu matches "${query.trim()}".`:"No dishes match those filters."}</p>
           <button onClick={clearAll} style={{fontFamily:"'Work Sans',sans-serif",fontSize:"11px",
             letterSpacing:".1em",textTransform:"uppercase",color:"var(--gd)",background:"var(--gp)",
             border:"1px solid rgba(43,61,43,.1)",padding:"10px 20px",borderRadius:"100px",cursor:"pointer"}}>Clear filters</button></div>}
